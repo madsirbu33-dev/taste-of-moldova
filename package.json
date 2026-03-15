@@ -37,7 +37,10 @@
     "react-native-worklets": "^0.5.0",
     "react-native-worklets-core": "^1.6.3",
     "tailwind-merge": "^2.3.0",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@types/react": "~19.1.10",
