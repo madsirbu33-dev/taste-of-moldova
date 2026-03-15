@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Taste of Moldova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-red-700"><i class="fas fa-wine-glass-alt mr-2"></i>Taste of Moldova</span>
+                    <span class="ml-4 px-3 py-1 bg-red-50 text-red-700 text-xs font-bold rounded-full uppercase tracking-wider">Admin</span>
+                </div>
+                <div class="flex items-center">
+                    <button onclick="logout()" class="text-gray-500 hover:text-red-700 transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="login-screen" class="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-gray-100">
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-6 text-center">Accesează Dashboard</h2>
+        <input type="password" id="password" placeholder="Parolă" class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-red-500 outline-none transition">
+        <button onclick="login()" class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition shadow-lg shadow-red-200">Login</button>
+    </div>
+
+    <div id="dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 hidden">
+        <!-- Dashboard Header -->
+        <div class="mb-10">
+            <h1 class="text-3xl font-extrabold text-gray-900">Bun venit la Panoul de Administrare</h1>
+            <p class="text-gray-500 mt-2">Gestionează vinăriile și evenimentele din aplicația Taste of Moldova.</p>
+        </div>
+
+        <!-- Feedback UI -->
+        <div id="notification" class="fixed top-20 right-8 px-6 py-3 bg-green-500 text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
+            Success!
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Add Winery Form -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center text-red-700 mr-4">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h2 class="text-xl font-bold">Adaugă Vinărie</h2>
+                </div>
+                <form id="winery-form" onsubmit="event.preventDefault(); addWinery();" class="space-y-4">
+                    <input type="text" id="w-name" placeholder="Nume Vinărie" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
+                    <select id="w-region" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
+                        <option value="Codru text-black">Codru</option>
+                        <option value="Ștefan Vodă">Ștefan Vodă</option>
+                        <option value="Valul lui Traian">Valul lui Traian</option>
+                        <option value="Divin">Divin</option>
+                    </select>
+                    <textarea id="w-desc" placeholder="Descriere Scurtă" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition h-24"></textarea>
+                    <input type="text" id="w-image" placeholder="URL Imagine" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
+                    <input type="text" id="w-wines" placeholder="Vinuri de Top (separate prin virgula)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
+                    <button type="submit" class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition">Salvează Vinăria</button>
+                </form>
+            </div>
+
+            <!-- Add Event Form -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-700 mr-4">
+                        <i class="fas fa-calendar-plus"></i>
+                    </div>
+                    <h2 class="text-xl font-bold">Adaugă Eveniment</h2>
+                </div>
+                <form id="event-form" onsubmit="event.preventDefault(); addEvent();" class="space-y-4">
+                    <input type="text" id="e-title" placeholder="Titlu Eveniment" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="date" id="e-date" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-location" placeholder="Locație" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-ticket" placeholder="URL Bilete (ex: iticket.md)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <button type="submit" class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează Evenimentul</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Management Tables -->
+        <div class="mt-12 space-y-12">
+            <!-- Wineries Table -->
+            <div>
+                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-warehouse mr-3 text-red-700"></i> Vinării Existente</h3>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nume</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Regiune</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="winery-table-body" class="divide-y divide-gray-50">
+                            <!-- Rows loaded by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Events Table -->
+            <div>
+                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-calendar-alt mr-3 text-blue-700"></i> Evenimente Existente</h3>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Titlu</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Data</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="event-table-body" class="divide-y divide-gray-50">
+                            <!-- Rows loaded by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminPassword = "";
+
+        function login() {
+            const pass = document.getElementById('password').value;
+            if (pass === "Moldova2026") {
+                adminPassword = pass;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadData();
+            } else {
+                alert("Parolă Incorectă!");
+            }
+        }
+
+        function logout() {
+            adminPassword = "";
+            location.reload();
+        }
+
+        function showNotification(msg) {
+            const el = document.getElementById('notification');
+            el.innerText = msg;
+            el.classList.remove('translate-x-80');
+            setTimeout(() => {
+                el.classList.add('translate-x-80');
+            }, 3000);
+        }
+
+        async function loadData() {
+            try {
+                const wRes = await fetch('/api/wineries');
+                const eRes = await fetch('/api/events');
+                const wineries = await wRes.json();
+                const events = await eRes.json();
+
+                // Render Wineries
+                const wBody = document.getElementById('winery-table-body');
+                wBody.innerHTML = wineries.map(w => `
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-gray-900">${w.name}</td>
+                        <td class="px-6 py-4 text-gray-500">${w.region}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:text-red-700 font-bold">Șterge</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Render Events
+                const eBody = document.getElementById('event-table-body');
+                eBody.innerHTML = events.map(e => `
+                    <tr>
+                        <td class="px-6 py-4 font-bold text-gray-900">${e.title}</td>
+                        <td class="px-6 py-4 text-gray-500">${e.displayDate}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:text-red-700 font-bold">Șterge</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function addWinery() {
+            const data = {
+                name: document.getElementById('w-name').value,
+                region: document.getElementById('w-region').value,
+                description: document.getElementById('w-desc').value,
+                imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+                topWines: document.getElementById('w-wines').value.split(',').map(s => s.trim()),
+                password: adminPassword
+            };
+
+            const res = await fetch('/api/admin/winery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                showNotification("Vinărie adăugată cu succes!");
+                document.getElementById('winery-form').reset();
+                loadData();
+            } else {
+                alert("Error saving data");
+            }
+        }
+
+        async function addEvent() {
+            const rawDate = document.getElementById('e-date').value;
+            const data = {
+                title: document.getElementById('e-title').value,
+                date: new Date(rawDate).toISOString(),
+                displayDate: new Date(rawDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }),
+                location: document.getElementById('e-location').value,
+                ticketUrl: document.getElementById('e-ticket').value || "https://iticket.md",
+                password: adminPassword
+            };
+
+            const res = await fetch('/api/admin/event', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                showNotification("Eveniment adăugat cu succes!");
+                document.getElementById('event-form').reset();
+                loadData();
+            } else {
+                alert("Error saving data");
+            }
+        }
+
+        async function deleteItem(type, id) {
+            if (!confirm(`Sigur vrei să ștergi acest element?`)) return;
+
+            const res = await fetch(`/api/admin/${type}/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: adminPassword })
+            });
+
+            if (res.ok) {
+                showNotification("Element șters!");
+                loadData();
+            } else {
+                alert("Unauthorized or Error");
+            }
+        }
+    </script>
+</body>
+</html>

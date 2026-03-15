@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# expo
+.expo/
+expo-env.d.ts
+
+# builds
+dist/
+build/
+web-build/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env
+.env.*
+!.env.example
+
+# misc
+.DS_Store
+*.swp
+*.bak

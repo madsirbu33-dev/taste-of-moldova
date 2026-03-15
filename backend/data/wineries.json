@@ -1,0 +1,178 @@
+[
+  {
+    "id": "1",
+    "name": "Castel Mimi",
+    "region": "Codru",
+    "igpId": "codru",
+    "coordinates": { "latitude": 46.8920, "longitude": 29.1554 },
+    "description": "The only authentic wine castle in Moldova, an architectural masterpiece that offers a five-star luxury experience.",
+    "longDescription": "Founded in 1893 by Constantin Mimi, the castle is a beacon of Bessarabian heritage. Following a meticulous restoration, it stands today as one of the most beautiful wineries in the world, blending 19th-century elegance with state-of-the-art sustainability.\n\nFrom grand ballrooms to Italian-designed bungalows, Castel Mimi is a destination for connoisseurs of fine architecture and high-end tourism. The estate's boutique hotel, Olympic pool, and Michelin-standard cuisine at the White Owl restaurant redefine the standards of luxury in Eastern Europe.",
+    "terroir": "The vineyards are situated in the village of Bulboaca, within the Codru PGI zone. The terroir is defined by limestone-rich soils and a microclimate moderated by rolling hills, ideal for producing structured reds and fresh, aromatic white wines.",
+    "topWines": ["Cabernet Sauvignon Reserve", "Roșu de Bulboaca", "Fetească Albă"],
+    "imageUrl": "https://images.unsplash.com/photo-1594498653385-d5172c532c00?auto=format&fit=crop&w=1200&q=80",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.9,
+    "websiteUrl": "https://www.castelmimi.md/",
+    "bookingUrl": "https://www.castelmimi.md/wine-tours/",
+    "contactInfo": {
+      "phone": "+373 68 442 525",
+      "email": "rezervari@castelmimi.md"
+    }
+  },
+  {
+    "id": "2",
+    "name": "Château Purcari",
+    "region": "Ștefan Vodă",
+    "igpId": "stefan-voda",
+    "coordinates": { "latitude": 46.5323, "longitude": 29.8661 },
+    "description": "Established in 1827, Purcari is the most awarded winery in Central and Eastern Europe, known as the \"Moldovan Bordeaux\".",
+    "longDescription": "Château Purcari is a legendary name in the world of wine. Its flagship, Negru de Purcari, gained international fame at the 1878 Paris World Expo and has been a favorite of royal courts across Europe. The winery maintains a profound respect for tradition, using manual harvesting and traditional methods alongside cutting-edge research.\n\nThe chateau offers a complete sensory journey, from the historical cellars dating back to the 19th century to the elegant lakeside terrace where guests can pair award-winning vintages with traditional Moldovan gastronomy.",
+    "terroir": "Located in the Ștefan Vodă district, near the Dniester River and the Black Sea. The soil is rich in minerals and rubidium, strikingly similar to the French Bordeaux region. The warm winds from the sea and river fog create a unique microclimate that protects and nurtures the vines.",
+    "topWines": ["Negru de Purcari", "Freedom Blend", "Rară Neagră de Purcari"],
+    "imageUrl": "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?auto=format&fit=crop&w=1200&q=80",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.8,
+    "websiteUrl": "https://purcari.wine/",
+    "bookingUrl": "https://purcari.wine/en/tours/",
+    "contactInfo": {
+      "phone": "+373 22 856 022",
+      "email": "chateau@purcari.wine"
+    }
+  },
+  {
+    "id": "3",
+    "name": "Cricova Winery",
+    "region": "Codru",
+    "igpId": "codru",
+    "coordinates": { "latitude": 47.1352, "longitude": 28.8687 },
+    "description": "The \"Pearl of Moldovan Winemaking\" features a vast underground wine city with over 120km of labyrinths.",
+    "longDescription": "Cricova is a true underground wonder. Established in 1952 in ancient limestone galleries, it houses over 1.3 million bottles of rare wines in its National Oenoteca. It is the first enterprise in Moldova to produce sparkling wine according to the \"Méthode Traditionnelle\", a technique identical to that used in Champagne.\n\nThe \"Wine City\" includes streets named after classic grape varieties like Cabernet, Pinot, and Fetească, allowing visitors to drive through a subterranean world of history, art, and exquisite flavors.",
+    "terroir": "The natural limestone caves maintain a constant temperature of 10-14°C and a humidity of 97-98% year-round, conditions that are perfect for the secondary fermentation of sparkling wines and the long-term maturation of fine reds.",
+    "topWines": ["Cricova Cuvée Prestige", "Amplius", "Codru Prestige"],
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.9,
+    "websiteUrl": "https://cricova.md/",
+    "bookingUrl": "https://cricova.md/tours/",
+    "contactInfo": {
+      "phone": "+373 22 427 777",
+      "email": "visit@cricova.md"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Chateau Vartely",
+    "region": "Codru",
+    "igpId": "codru",
+    "coordinates": { "latitude": 47.3508, "longitude": 28.8267 },
+    "description": "A modern winery complex near Orhei, blending high-tech production with authentic Moldovan hospitality.",
+    "longDescription": "Chateau Vartely is a 4-star tourist complex that offers a perfect bridge between past and future. The chateau's architecture is inspired by traditional Moldovan villas, yet its production facilities are among the most advanced in the country.\n\nWith more than 300 international medals, Vartely is recognized for its expressive wines and the unique \"Legend of Wine\" interactive experience projected in its cellars. The estate is a hub for both international experts and casual wine lovers seeking a complete cultural immersion.",
+    "terroir": "Crafted from grapes grown in the Codru and Bugeac Steppe regions. The limestone-rich plateaus around Orhei favor both regional white varieties like Viorica and international reds, yielding fresh, aromatic, and complex results.",
+    "topWines": ["Taraboste Rosso", "Individo Merlot/Cabernet", "Vartely Ice Wine"],
+    "imageUrl": "https://images.unsplash.com/photo-1566733971257-82650294114b?auto=format&fit=crop&w=1200&q=80",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.7,
+    "websiteUrl": "https://vartely.md/",
+    "bookingUrl": "https://vartely.md/en/tourism/",
+    "contactInfo": {
+      "phone": "+373 68 500 555",
+      "email": "receprie@vartely.md"
+    }
+  },
+  {
+    "id": "5",
+    "name": "Fautor Winery",
+    "region": "Valul lui Traian",
+    "igpId": "valul-lui-traian",
+    "coordinates": { "latitude": 45.9083, "longitude": 28.1917 },
+    "description": "The most awarded winery in Moldova in recent years, Fautor (Latin for \"creator\") is a symbol of artistic winemaking.",
+    "longDescription": "A family-owned winery located in the southern part of Moldova, Fautor has become a synonym for excellence. Their philosophy is that winemaking is an art, a belief validated by being credited as \"the best red wine in the world\" at the 2022 Concours Mondial de Bruxelles for their Fautor Negre.\n\nThe winery is known for its bold experiments, including the cultivation of unique varieties for Moldova, such as Albariño and Tempranillo, pushing the boundaries of what the Moldovan terroir can achieve.",
+    "terroir": "The vineyards span 350 hectares in the Tigheci microzone (Valul lui Traian PGI). Proximity to the Codrii Tigheci forest reservation and Prut River terraces creates a warm, dry climate that fosters structure, character, and elegance.",
+    "topWines": ["Fautor Negre", "Illustro Cabernet/Merlot", "Albariño"],
+    "imageUrl": "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1200&q=80",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.9,
+    "websiteUrl": "https://fautor.wine/",
+    "bookingUrl": "https://fautor.wine/tours/",
+    "contactInfo": {
+      "phone": "+373 22 232 337",
+      "email": "office@fautor.wine"
+    }
+  },
+  {
+    "id": "6",
+    "name": "Mileștii Mici",
+    "region": "Codru",
+    "igpId": "codru",
+    "coordinates": { "latitude": 46.9069, "longitude": 28.8058 },
+    "description": "The world's largest wine city, featuring underground streets named after classic grape varieties.",
+    "longDescription": "Holding the Guinness World Record for the largest wine collection, Mileștii Mici is a legendary underground city. With over 200km of limestone tunnels, of which 55km are dedicated to wine storage, this subterranean complex is a marvel of human ingenuity.\n\nVisitors can drive their own cars through streets named Cabernet or Chardonnay, exploring galleries that house over 1.5 million bottles of the \"Golden Collection\". The constant humidity and temperature of these limestone caves provide the perfect sanctuary for aging some of Moldova's most prestigious vintages.",
+    "terroir": "Vast limestone galleries provide unique atmospheric pressure and humidity for the long-term aging of Moldova's \"Golden Collection\".",
+    "topWines": ["Negru de Mileștii Mici", "Codru 1987", "Chardonnay Desert"],
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+    "logoUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=200&auto=format&fit=crop",
+    "rating": 4.7,
+    "websiteUrl": "https://www.milestii-mici.md/",
+    "bookingUrl": "https://www.milestii-mici.md/en/tours/",
+    "contactInfo": {
+      "phone": "+373 69 500 500",
+      "email": "tours@milestii-mici.md"
+    }
+  },
+  {
+    "id": "7",
+    "name": "Asconi Winery",
+    "region": "Codru",
+    "igpId": "codru",
+    "coordinates": { "latitude": 46.8524, "longitude": 29.0152 },
+    "description": "A family-owned winery offering a rustic and authentic experience.",
+    "terroir": "Rolling hills and southern exposure in the Puhoi area yield concentrated grapes with vibrant acidity.",
+    "topWines": ["Sol Negru Cabernet", "Asconi Ice Wine", "Saperavi Reserve"],
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+    "rating": 4.8,
+    "websiteUrl": "https://asconi.md/",
+    "bookingUrl": "https://asconi.md/reservations/"
+  },
+  {
+    "id": "8",
+    "name": "Et Cetera",
+    "region": "Ștefan Vodă",
+    "igpId": "stefan-voda",
+    "coordinates": { "latitude": 46.5186, "longitude": 29.8327 },
+    "description": "A boutique winery focused on sustainable practices.",
+    "terroir": "The Luchianov family vineyards benefit from the specific minerals of the Crocmaz plains and the proximity to the Dniester River.",
+    "topWines": ["Et Cetera Carmenere", "Cuvee Rouge", "Serendipity"],
+    "imageUrl": "https://images.unsplash.com/photo-1566733971257-82650294114b?auto=format&fit=crop&w=800&q=80",
+    "rating": 4.9,
+    "websiteUrl": "https://etcetera.md/",
+    "bookingUrl": "https://etcetera.md/contacts/"
+  },
+  {
+    "id": "9",
+    "name": "Radacini Winery",
+    "region": "Valul lui Traian",
+    "igpId": "valul-lui-traian",
+    "coordinates": { "latitude": 45.8500, "longitude": 28.2500 },
+    "description": "A modern and dynamic winery that focuses on authentic roots.",
+    "terroir": "Sandy and light soils in the southern steppes produce elegant, fruit-forward wines with soft tannins.",
+    "topWines": ["Radacini Blanc de Noirs", "Fiori Feteasca Neagra", "Metamporphoze"],
+    "imageUrl": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80",
+    "rating": 4.6,
+    "websiteUrl": "https://radacini.md/",
+    "bookingUrl": "https://radacini.md/en/tours/"
+  },
+  {
+    "id": "10",
+    "name": "Divin - Bardar",
+    "region": "Divin",
+    "igpId": "divin",
+    "coordinates": { "latitude": 46.8624, "longitude": 28.6678 },
+    "description": "The most prestigious house of wine distillates (Divin) in Moldova.",
+    "terroir": "The aging process in oak barrels within the Bardar cellars creates the unique amber color and complex aroma of Moldovan Divin.",
+    "topWines": ["Bardar 25 Years", "Bardar Platinum", "Bardar Silver 7"],
+    "imageUrl": "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?auto=format&fit=crop&w=800&q=80",
+    "rating": 4.9,
+    "websiteUrl": "https://bardar.md/",
+    "bookingUrl": "https://bardar.md/reservations/"
+  }
+]

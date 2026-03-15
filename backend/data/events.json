@@ -1,0 +1,50 @@
+[
+  {
+    "id": "e1",
+    "title": "Vernisajul Vinului de Primăvară",
+    "date": "2026-05-01T18:00:00.000Z",
+    "displayDate": "1 Mai, 2026",
+    "location": "Palatul Republicii, Chișinău",
+    "price": "350 MDL",
+    "organizer": "Wine of Moldova",
+    "image": "https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=800&q=80",
+    "description": "Ediție aniversară dedicată vinurilor de primăvară. Peste 50 de vinării își prezintă noile lansări de vinuri albe și rosé.",
+    "ticketUrl": "https://iticket.md/event/vernisajul-vinului-2026"
+  },
+  {
+    "id": "e2",
+    "title": "Sparkling Party by Cricova",
+    "date": "2026-05-30T17:00:00.000Z",
+    "displayDate": "30 Mai, 2026",
+    "location": "Cricova Winery",
+    "price": "500 MDL",
+    "organizer": "Cricova",
+    "image": "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80",
+    "description": "O seară magică în galeriile subterane Cricova, dedicată spumantelor premium și muzicii jazz.",
+    "ticketUrl": "https://iticket.md/event/cricova-sparkling-party"
+  },
+  {
+    "id": "e3",
+    "title": "Rosé Day at Castel Mimi",
+    "date": "2026-06-06T15:00:00.000Z",
+    "displayDate": "6 Iunie, 2026",
+    "location": "Castel Mimi, Bulboaca",
+    "price": "600 MDL",
+    "organizer": "Castel Mimi",
+    "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+    "description": "Sărbătorim cel mai iubit vin al verii într-o ambianță aristocratică, la singurul castel viticol din Moldova.",
+    "ticketUrl": "https://iticket.md/event/rose-day-mimi"
+  },
+  {
+    "id": "e4",
+    "title": "Ziua Națională a Vinului",
+    "date": "2026-10-03T10:00:00.000Z",
+    "displayDate": "3-4 Octombrie, 2026",
+    "location": "Piața Marii Adunări Naționale (PMAN)",
+    "price": "Gratuit",
+    "organizer": "Wine of Moldova",
+    "image": "https://images.unsplash.com/photo-1594498653385-d5172c532c00?auto=format&fit=crop&w=1200&q=80",
+    "description": "Cea mai mare sărbătoare a vinului din Europa de Est, reunind toți producătorii într-o celebrare a tradițiilor.",
+    "ticketUrl": "https://afisha.md/event/ziua-vinului-2026"
+  }
+]
