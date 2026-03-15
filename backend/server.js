@@ -123,7 +123,6 @@ app.get('/api/health', (req, res) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running on http://0.0.0.0:${PORT}`);
-    console.log(`📡 Local network access: http://192.168.100.10:${PORT}`);
-    console.log(`🔑 Admin Dashboard: http://localhost:${PORT}/admin`);
+    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`🔑 Admin Dashboard: /admin`);
 });
