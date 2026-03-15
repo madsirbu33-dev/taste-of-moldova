@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
  * For iOS Simulator or physical devices on the same network, use the machine's local IP.
  * Defaulting to localhost for web/iOS simulator.
  */
-const BASE_URL = Platform.OS === 'android' ? 'http://10.0.2.2:3000' : 'http://192.168.100.10:3000';
+const BASE_URL = 'https://taste-of-moldova.onrender.com';
 
 export const API_CONFIG = {
   BASE_URL: BASE_URL,
