@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Security Key
-const ADMIN_PASSWORD = "Moldova2026";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Moldova2026";
 
 // Serve Static Admin Page
 app.use('/admin', express.static(path.join(__dirname, 'public/admin.html')));
