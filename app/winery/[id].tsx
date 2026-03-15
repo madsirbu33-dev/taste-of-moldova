@@ -13,6 +13,10 @@ import * as Linking from 'expo-linking';
 const { width } = Dimensions.get('window');
 
 export default function WineryDetailScreen() {
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+  const { wineries } = useWineryStore();
+  
   const winery = wineries.find(w => w.id === id);
 
   useEffect(() => {
