@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, Image, ActivityIndicator } from 'react-native';
+import { API_CONFIG } from '../../constants/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Send, Bot, User, Sparkles, HelpCircle } from 'lucide-react-native';
 import { BlurView } from 'expo-blur';
@@ -56,6 +57,13 @@ export default function AIGuideScreen() {
     setMessages(prev => [...prev, userMsg]);
     if (!textOverride) setInputText('');
     setIsTyping(true);
+
+    // Track AI Interaction
+    fetch(`${API_CONFIG.BASE_URL}/api/analytics/track`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'ai_interaction' })
+    }).catch(err => console.error('Tracking Error:', err));
 
     // 1-second "AI is thinking" simulation
     setTimeout(() => {

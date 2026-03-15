@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { API_CONFIG } from '../../constants/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin, Star, Globe, Calendar, ChevronLeft, Info, Trophy, Phone, Mail } from 'lucide-react-native';
 import { BlurView } from 'expo-blur';
@@ -11,11 +13,17 @@ import * as Linking from 'expo-linking';
 const { width } = Dimensions.get('window');
 
 export default function WineryDetailScreen() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
-  const { wineries } = useWineryStore();
-  
   const winery = wineries.find(w => w.id === id);
+
+  useEffect(() => {
+    if (winery) {
+      fetch(`${API_CONFIG.BASE_URL}/api/analytics/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'winery_view', id: winery.id })
+      }).catch(err => console.error('Tracking Error:', err));
+    }
+  }, [id]);
 
   if (!winery) {
     return (

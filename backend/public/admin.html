@@ -40,8 +40,24 @@
         </div>
 
         <!-- Feedback UI -->
-        <div id="notification" class="fixed top-20 right-8 px-6 py-3 bg-green-500 text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
+        <div id="notification" class="fixed top-20 right-8 px-6 py-3 bg-[#B81D24] text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
             Success!
+        </div>
+
+        <!-- Live Statistics Footer -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Vizite Totale</p>
+                <h3 id="stat-visits" class="text-3xl font-black text-[#1A1A1A]">0</h3>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Utilizări AI</p>
+                <h3 id="stat-ai" class="text-3xl font-black text-[#B81D24]">0</h3>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Top Vinărie</p>
+                <h3 id="stat-top" class="text-xl font-bold text-[#A68940]">Se încarcă...</h3>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -80,7 +96,8 @@
                     <input type="text" id="e-title" placeholder="Titlu Eveniment" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
                     <input type="date" id="e-date" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
                     <input type="text" id="e-location" placeholder="Locație" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <input type="text" id="e-ticket" placeholder="URL Bilete (ex: iticket.md)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-image" placeholder="URL Imagine (ex: unsplash.com/...)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-ticket" placeholder="URL Bilete" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
                     <button type="submit" class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează Evenimentul</button>
                 </form>
             </div>
@@ -161,8 +178,20 @@
             try {
                 const wRes = await fetch('/api/wineries');
                 const eRes = await fetch('/api/events');
+                const sRes = await fetch('/api/admin/stats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: adminPassword })
+                });
+
                 const wineries = await wRes.json();
                 const events = await eRes.json();
+                const stats = await sRes.json();
+
+                // Render Stats
+                document.getElementById('stat-visits').innerText = stats.total_app_opens;
+                document.getElementById('stat-ai').innerText = stats.ai_interactions;
+                document.getElementById('stat-top').innerText = stats.topWineries[0]?.name || "N/A";
 
                 // Render Wineries
                 const wBody = document.getElementById('winery-table-body');
@@ -224,6 +253,7 @@
                 date: new Date(rawDate).toISOString(),
                 displayDate: new Date(rawDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }),
                 location: document.getElementById('e-location').value,
+                image: document.getElementById('e-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
                 ticketUrl: document.getElementById('e-ticket').value || "https://iticket.md",
                 password: adminPassword
             };

@@ -12,6 +12,37 @@ app.use(express.json());
 const fs = require('fs');
 const path = require('path');
 
+// Helper to read data files
+const getData = (filename) => {
+    const filePath = path.join(__dirname, 'data', filename);
+    if (!fs.existsSync(filePath)) {
+        if (filename === 'analytics.json') return { total_app_opens: 0, ai_interactions: 0, winery_views: {} };
+        return [];
+    }
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+};
+
+// Helper to save data files
+const saveData = (filename, data) => {
+    const filePath = path.join(__dirname, 'data', filename);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+};
+
+// --- ANALYTICS ENGINE ---
+const trackStat = (type, id = null) => {
+    try {
+        const stats = getData('analytics.json');
+        if (type === 'app_open') stats.total_app_opens++;
+        if (type === 'ai_interaction') stats.ai_interactions++;
+        if (type === 'winery_view' && id) {
+            stats.winery_views[id] = (stats.winery_views[id] || 0) + 1;
+        }
+        saveData('analytics.json', stats);
+    } catch (err) {
+        console.error('Analytics Error:', err);
+    }
+};
+
 // Security Key
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Moldova2026";
 
@@ -21,17 +52,6 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/admin.html'));
 });
 
-// Helper to read data files
-const getData = (filename) => {
-    const filePath = path.join(__dirname, 'data', filename);
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-};
-
-// Helper to save data files
-const saveData = (filename, data) => {
-    const filePath = path.join(__dirname, 'data', filename);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-};
 
 // Auth Middleware (Simplistic for MVP)
 const adminAuth = (req, res, next) => {
@@ -46,6 +66,7 @@ const adminAuth = (req, res, next) => {
 // --- PUBLIC API ---
 app.get('/api/wineries', (req, res) => {
     try {
+        trackStat('app_open'); // Implicitly track app open on main data fetch
         const wineries = getData('wineries.json');
         res.json(wineries);
     } catch (error) {
@@ -60,6 +81,33 @@ app.get('/api/events', (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch events' });
     }
+});
+
+// Analytics Track Endpoint
+app.post('/api/analytics/track', (req, res) => {
+    const { type, id } = req.body;
+    trackStat(type, id);
+    res.json({ success: true });
+});
+
+// Admin Stats
+app.post('/api/admin/stats', adminAuth, (req, res) => {
+    const stats = getData('analytics.json');
+    const wineries = getData('wineries.json');
+    
+    // Sort top wineries
+    const topWineries = Object.entries(stats.winery_views)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 3)
+        .map(([id, views]) => ({
+            name: wineries.find(w => w.id === id)?.name || id,
+            views
+        }));
+
+    res.json({
+        ...stats,
+        topWineries
+    });
 });
 
 // --- ADMIN API (CRUD) ---
