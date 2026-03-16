@@ -280,6 +280,7 @@
 
     <script>
         let adminPassword = "";
+        let editingId = null; // Наша память для редактирования
 
         function login() {
             const pass = document.getElementById('password').value;
@@ -307,6 +308,32 @@
             }, 3000);
         }
 
+        // Функция-детектор: заполняет форму данными из таблицы
+        function prepareEdit(type, item) {
+            editingId = item.id;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (type === 'winery') {
+                document.getElementById('w-name').value = item.name;
+                document.getElementById('w-desc').value = item.description;
+                document.getElementById('w-image').value = item.imageUrl || "";
+                document.getElementById('w-wines').value = item.topWines ? item.topWines.join(', ') : "";
+                const btn = document.querySelector('#winery-form button');
+                btn.innerText = "Actualizează Vinăria";
+                btn.style.backgroundColor = "#d97706";
+            } else if (type === 'event') {
+                document.getElementById('e-title').value = item.title;
+                document.getElementById('e-location').value = item.location;
+                document.getElementById('e-image').value = item.image || "";
+                document.getElementById('e-ticket').value = item.ticketUrl || "";
+                if (item.date) document.getElementById('e-date').value = item.date.split('T')[0];
+                const btn = document.querySelector('#event-form button');
+                btn.innerText = "Actualizează Evenimentul";
+                btn.style.backgroundColor = "#d97706";
+            }
+            showNotification("Mod de editare activat!");
+        }
+
         async function loadData() {
             try {
                 const wRes = await fetch('/api/wineries');
@@ -321,66 +348,67 @@
                 const events = await eRes.json();
                 const stats = await sRes.json();
 
-                // Render Stats
                 document.getElementById('stat-visits').innerText = stats.total_app_opens;
                 document.getElementById('stat-ai').innerText = stats.ai_interactions;
                 document.getElementById('stat-top').innerText = stats.topWineries[0]?.name || "N/A";
 
-                // Render Wineries
+                // Таблица виноделен с кнопками-иконками
                 const wBody = document.getElementById('winery-table-body');
                 wBody.innerHTML = wineries.map(w => `
                     <tr>
                         <td class="px-6 py-4 font-bold text-gray-900">${w.name}</td>
                         <td class="px-6 py-4 text-gray-500">${w.region}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg font-bold min-h-[44px] min-w-[44px] transition">Șterge</button>
+                            <button onclick='prepareEdit("winery", ${JSON.stringify(w)})' class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `).join('');
 
-                // Render Events
+                // Таблица событий с кнопками-иконками
                 const eBody = document.getElementById('event-table-body');
                 eBody.innerHTML = events.map(e => `
                     <tr>
                         <td class="px-6 py-4 font-bold text-gray-900">${e.title}</td>
                         <td class="px-6 py-4 text-gray-500">${e.displayDate}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg font-bold min-h-[44px] min-w-[44px] transition">Șterge</button>
+                            <button onclick='prepareEdit("event", ${JSON.stringify(e)})' class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `).join('');
-            } catch (err) {
-                console.error(err);
-            }
+            } catch (err) { console.error(err); }
         }
 
         async function addWinery() {
             const regionNode = document.querySelector('input[name="w-region"]:checked');
             const region = regionNode ? regionNode.value : 'Codru';
             const amenities = Array.from(document.querySelectorAll('input[name="w-amenity"]:checked')).map(cb => cb.value);
-
             const data = {
                 name: document.getElementById('w-name').value,
                 region: region,
                 description: document.getElementById('w-desc').value,
-                imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+                imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
                 topWines: document.getElementById('w-wines').value.split(',').map(s => s.trim()),
                 amenities: amenities,
                 password: adminPassword
             };
 
-            const res = await fetch('/api/admin/winery', {
-                method: 'POST',
+            const url = editingId ? `/api/winery/${editingId}` : '/api/admin/winery';
+            const res = await fetch(url, {
+                method: editingId ? 'PUT' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
 
             if (res.ok) {
-                showNotification("Vinărie adăugată cu succes!");
+                showNotification(editingId ? "Actualizat!" : "Adăugat!");
+                editingId = null;
                 document.getElementById('winery-form').reset();
+                const btn = document.querySelector('#winery-form button');
+                btn.innerText = "Salvează Vinăria";
+                btn.style.backgroundColor = "";
                 loadData();
-            } else {
-                alert("Error saving data");
             }
         }
 
@@ -391,80 +419,59 @@
                 date: new Date(rawDate).toISOString(),
                 displayDate: new Date(rawDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }),
                 location: document.getElementById('e-location').value,
-                image: document.getElementById('e-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
+                image: document.getElementById('e-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
                 ticketUrl: document.getElementById('e-ticket').value || "https://iticket.md",
                 password: adminPassword
             };
 
-            const res = await fetch('/api/admin/event', {
-                method: 'POST',
+            const url = editingId ? `/api/event/${editingId}` : '/api/admin/event';
+            const res = await fetch(url, {
+                method: editingId ? 'PUT' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
 
             if (res.ok) {
-                showNotification("Eveniment adăugat cu succes!");
+                showNotification(editingId ? "Actualizat!" : "Adăugat!");
+                editingId = null;
                 document.getElementById('event-form').reset();
+                const btn = document.querySelector('#event-form button');
+                btn.innerText = "Salvează Evenimentul";
+                btn.style.backgroundColor = "";
                 loadData();
-            } else {
-                alert("Error saving data");
             }
         }
 
         async function deleteItem(type, id) {
-            if (!confirm(`Sigur vrei să ștergi acest element?`)) return;
-
+            if (!confirm(`Sigur ștergi?`)) return;
             const res = await fetch(`/api/admin/${type}/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password: adminPassword })
             });
-
-            if (res.ok) {
-                showNotification("Element șters!");
-                loadData();
-            } else {
-                alert("Unauthorized or Error");
-            }
+            if (res.ok) { showNotification("Șters!"); loadData(); }
         }
 
         function searchTable(tbodyId, query) {
-            const tbody = document.getElementById(tbodyId);
-            if (!tbody) return;
-            const rows = tbody.getElementsByTagName('tr');
+            const rows = document.getElementById(tbodyId).getElementsByTagName('tr');
             const lowerQuery = query.toLowerCase();
-
             Array.from(rows).forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(lowerQuery) ? '' : 'none';
+                row.style.display = row.textContent.toLowerCase().includes(lowerQuery) ? '' : 'none';
             });
         }
+
         async function publishArticle() {
             const title = document.getElementById('art-title').value;
             const subtitle = document.getElementById('art-subtitle').value;
             const content = document.getElementById('art-content').value;
             const image = document.getElementById('art-image').value;
-
-            if (!title || !content) return alert("Titlul și conținutul sunt obligatorii!");
-
+            if (!title || !content) return alert("Obligatoriu!");
             const res = await fetch('/api/articles', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title,
-                    subtitle,
-                    content,
-                    imageURL: image,
-                    password: adminPassword
-                })
+                body: JSON.stringify({ title, subtitle, content, imageURL: image, password: adminPassword })
             });
-
-            if (res.ok) {
-                showNotification("Articol publicat cu succes!");
-                setTimeout(() => location.reload(), 1000);
-            } else {
-                alert("Eroare la publicare. Verifică parola.");
-            }
+            if (res.ok) { showNotification("Publicat!"); setTimeout(() => location.reload(), 1000); }
         }
     </script>
 </body>
