@@ -11,116 +11,38 @@
 
 <body class="bg-gray-50 min-h-screen">
     <nav class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold text-red-700"><i class="fas fa-wine-glass-alt mr-2"></i>Taste of
-                        Moldova</span>
-                    <span
-                        class="ml-4 px-3 py-1 bg-red-50 text-red-700 text-xs font-bold rounded-full uppercase tracking-wider">Admin</span>
-                </div>
-                <div class="flex items-center">
-                    <button onclick="logout()" class="text-gray-500 hover:text-red-700 transition">
-                        <i class="fas fa-sign-out-alt mr-1"></i> Sign Out
-                    </button>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
+            <span class="text-2xl font-bold text-red-700"><i class="fas fa-wine-glass-alt mr-2"></i>Taste of Moldova
+                <span class="text-xs bg-red-50 px-2 py-1 rounded-full uppercase">Admin</span></span>
+            <button onclick="logout()" class="text-gray-500 hover:text-red-700"><i class="fas fa-sign-out-alt"></i>
+                Ieșire</button>
         </div>
     </nav>
 
-    <div id="login-screen" class="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-gray-100">
-        <h2 class="text-2xl font-extrabold text-gray-900 mb-6 text-center">Accesează Dashboard</h2>
+    <div id="login-screen"
+        class="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-gray-100 text-center">
+        <h2 class="text-2xl font-bold mb-6">Autentificare</h2>
         <input type="password" id="password" placeholder="Parolă"
-            class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-red-500 outline-none transition">
+            class="w-full px-4 py-3 border rounded-xl mb-4 outline-none focus:ring-2 focus:ring-red-500">
         <button onclick="login()"
-            class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition shadow-lg shadow-red-200">Login</button>
+            class="w-full bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg hover:bg-red-800 transition">Login</button>
     </div>
 
-    <div id="dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 hidden">
-        <div class="mb-10">
-            <h1 class="text-3xl font-extrabold text-gray-900">Bun venit la Panoul de Administrare</h1>
-            <p class="text-gray-500 mt-2">Gestionează vinăriile și evenimentele din aplicația Taste of Moldova.</p>
-        </div>
-
+    <div id="dashboard" class="max-w-7xl mx-auto px-4 py-10 hidden">
         <div id="notification"
-            class="fixed top-20 right-8 px-6 py-3 bg-[#B81D24] text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
-            Success!
-        </div>
+            class="fixed top-20 right-8 px-6 py-3 bg-green-600 text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
+            Success!</div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Vizite Totale</p>
-                <h3 id="stat-visits" class="text-3xl font-black text-[#1A1A1A]">0</h3>
-            </div>
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Utilizări AI</p>
-                <h3 id="stat-ai" class="text-3xl font-black text-[#B81D24]">0</h3>
-            </div>
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Top Vinărie</p>
-                <h3 id="stat-top" class="text-xl font-bold text-[#A68940]">Se încarcă...</h3>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold mb-6 flex items-center"><i
-                        class="fas fa-plus text-red-700 mr-4"></i>Adaugă/Editează Vinărie</h2>
+                <h2 class="text-xl font-bold mb-6 text-red-700"><i class="fas fa-plus mr-2"></i>Vinărie</h2>
                 <form id="winery-form" onsubmit="event.preventDefault(); addWinery();" class="space-y-4">
                     <input type="text" id="w-name" placeholder="Nume Vinărie" required
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl outline-none">
-                    <div class="space-y-2">
-                        <label class="block text-sm font-bold text-gray-700">Regiune IGP</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label
-                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
-                                    type="radio" name="w-region" value="Codru" checked> <span>Codru</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
-                                    type="radio" name="w-region" value="Ștefan Vodă"> <span>Ștefan Vodă</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
-                                    type="radio" name="w-region" value="Valul lui Traian"> <span>Valul lui
-                                    Traian</span></label>
-                            <label
-                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
-                                    type="radio" name="w-region" value="Divin"> <span>Divin</span></label>
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="block text-sm font-bold text-gray-700">Facilități</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="Parking"
-                                    class="w-5 h-5 text-red-600 rounded"> <span
-                                    class="text-gray-700 text-sm">Parcare</span></label>
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="Restaurant"
-                                    class="w-5 h-5 text-red-600 rounded"> <span
-                                    class="text-gray-700 text-sm">Restaurant</span></label>
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="Hotel" class="w-5 h-5 text-red-600 rounded">
-                                <span class="text-gray-700 text-sm">Hotel</span></label>
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="Wine Tasting"
-                                    class="w-5 h-5 text-red-600 rounded"> <span
-                                    class="text-gray-700 text-sm">Degustare</span></label>
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="WiFi" class="w-5 h-5 text-red-600 rounded">
-                                <span class="text-gray-700 text-sm">Wi-Fi</span></label>
-                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
-                                    type="checkbox" name="w-amenity" value="Pool" class="w-5 h-5 text-red-600 rounded">
-                                <span class="text-gray-700 text-sm">Piscină</span></label>
-                        </div>
-                    </div>
-
-                    <textarea id="w-desc" placeholder="Descriere Scurtă" required
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl h-24"></textarea>
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl outline-none">
+                    <textarea id="w-desc" placeholder="Descriere" required
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl h-24 outline-none"></textarea>
                     <input type="text" id="w-image" placeholder="URL Imagine"
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
-                    <input type="text" id="w-wines" placeholder="Vinuri de Top (separate prin virgula)"
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl outline-none">
                     <button type="submit"
                         class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition">Salvează
                         Vinăria</button>
@@ -128,85 +50,52 @@
             </div>
 
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold mb-6 flex items-center"><i
-                        class="fas fa-calendar-plus text-blue-700 mr-4"></i>Adaugă/Editează Eveniment</h2>
+                <h2 class="text-xl font-bold mb-6 text-blue-700"><i class="fas fa-calendar-plus mr-2"></i>Eveniment</h2>
                 <form id="event-form" onsubmit="event.preventDefault(); addEvent();" class="space-y-4">
                     <input type="text" id="e-title" placeholder="Titlu Eveniment" required
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl outline-none">
                     <input type="date" id="e-date" required
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
-                    <input type="text" id="e-location" placeholder="Locație" required
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
-                    <input type="text" id="e-image" placeholder="URL Imagine"
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
-                    <input type="text" id="e-ticket" placeholder="URL Bilete"
-                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl outline-none">
+                    <input type="text" id="e-location" placeholder="Locație"
+                        class="w-full px-4 py-2 bg-gray-50 border rounded-xl outline-none">
                     <button type="submit"
                         class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează
                         Evenimentul</button>
                 </form>
             </div>
-        </div>
 
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-12 w-full lg:w-1/2">
-            <div class="flex items-center mb-6">
-                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mr-4">
-                    <i class="fas fa-file-alt text-red-600"></i>
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 lg:col-span-2">
+                <h2 class="text-xl font-bold mb-6 text-orange-600"><i class="fas fa-file-alt mr-2"></i>Articol Nou</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" id="art-title" class="px-4 py-2 bg-gray-50 border rounded-xl outline-none"
+                        placeholder="Titlu Articol">
+                    <input type="text" id="art-subtitle" class="px-4 py-2 bg-gray-50 border rounded-xl outline-none"
+                        placeholder="Subtitlu">
+                    <input type="text" id="art-image"
+                        class="px-4 py-2 bg-gray-50 border rounded-xl outline-none md:col-span-2"
+                        placeholder="URL Imagine">
+                    <textarea id="art-content"
+                        class="px-4 py-2 bg-gray-50 border rounded-xl h-32 outline-none md:col-span-2"
+                        placeholder="Conținutul articolului..."></textarea>
+                    <button onclick="publishArticle()"
+                        class="md:col-span-2 bg-orange-600 text-white font-bold py-3 rounded-xl hover:bg-orange-700 transition">Publică
+                        Articolul</button>
                 </div>
-                <h2 class="text-xl font-bold text-gray-800">Adaugă Articol Nou</h2>
-            </div>
-            <div class="grid gap-4">
-                <input type="text" id="art-title"
-                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                    placeholder="Titlu Articol">
-                <input type="text" id="art-subtitle"
-                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                    placeholder="Subtitlu / Scurtă descriere">
-                <textarea id="art-content"
-                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all h-32"
-                    placeholder="Conținutul articolului..."></textarea>
-                <input type="text" id="art-image"
-                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                    placeholder="URL Imagine">
-                <button onclick="publishArticle()"
-                    class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 shadow-lg shadow-red-200 transition-all">Publică
-                    Articolul</button>
             </div>
         </div>
 
-        <div class="mt-12 space-y-12">
-            <div>
-                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-warehouse mr-3 text-red-700"></i>
-                    Vinării Existente</h3>
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50 border-b">
-                            <tr>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Nume</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Regiune</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase text-right">Acțiuni</th>
-                            </tr>
-                        </thead>
-                        <tbody id="winery-table-body" class="divide-y"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div>
-                <h3 class="text-xl font-bold mb-6 flex items-center"><i
-                        class="fas fa-calendar-alt mr-3 text-blue-700"></i> Evenimente Existente</h3>
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <table class="w-full text-left">
-                        <thead class="bg-gray-50 border-b">
-                            <tr>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Titlu</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Data</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase text-right">Acțiuni</th>
-                            </tr>
-                        </thead>
-                        <tbody id="event-table-body" class="divide-y"></tbody>
-                    </table>
-                </div>
+        <div class="space-y-8">
+            <h3 class="text-2xl font-bold">Gestiune Date</h3>
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="px-6 py-4">Denumire</th>
+                            <th class="px-6 py-4 text-right">Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table-body" class="divide-y"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -222,192 +111,84 @@
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
                 loadData();
-            } else {
-                alert("Parolă Incorectă!");
-            }
+            } else { alert("Parolă Incorectă!"); }
         }
 
-        function logout() {
-            adminPassword = "";
-            location.reload();
-        }
+        function logout() { location.reload(); }
 
         function showNotification(msg) {
             const el = document.getElementById('notification');
-            el.innerText = msg;
-            el.classList.remove('translate-x-80');
-            setTimeout(() => { el.classList.add('translate-x-80'); }, 3000);
+            el.innerText = msg; el.classList.remove('translate-x-80');
+            setTimeout(() => el.classList.add('translate-x-80'), 3000);
+        }
+
+        async function loadData() {
+            const [wRes, eRes] = await Promise.all([fetch('/api/wineries'), fetch('/api/events')]);
+            const wineries = await wRes.json();
+            const events = await eRes.json();
+
+            const body = document.getElementById('data-table-body');
+            body.innerHTML = [
+                ...wineries.map(item => ({ ...item, type: 'winery', label: item.name })),
+                ...events.map(item => ({ ...item, type: 'event', label: item.title }))
+            ].map(item => `
+                <tr>
+                    <td class="px-6 py-4 font-medium">${item.label} <span class="text-xs text-gray-400 ml-2">(${item.type})</span></td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="prepareEdit('${item.type}', '${item.id}')" class="text-blue-600 p-2"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteItem('${item.type}', '${item.id}')" class="text-red-500 p-2"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         async function prepareEdit(type, id) {
-            editingId = id;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            const res = await fetch(type === 'winery' ? '/api/wineries' : '/api/events');
-            const items = await res.json();
-            const item = items.find(x => x.id == id);
-
+            editingId = id; window.scrollTo({ top: 0, behavior: 'smooth' });
+            const items = await (await fetch(type === 'winery' ? '/api/wineries' : '/api/events')).json();
+            const item = items.find(i => i.id == id);
             if (item) {
                 if (type === 'winery') {
                     document.getElementById('w-name').value = item.name;
                     document.getElementById('w-desc').value = item.description;
                     document.getElementById('w-image').value = item.imageUrl || "";
-                    document.getElementById('w-wines').value = item.topWines ? item.topWines.join(', ') : "";
-
-                    // Check amenities logic
-                    const checkboxes = document.querySelectorAll('input[name="w-amenity"]');
-                    checkboxes.forEach(cb => cb.checked = false);
-                    if (item.amenities) {
-                        item.amenities.forEach(amenity => {
-                            const cb = document.querySelector(`input[name="w-amenity"][value="${amenity}"]`);
-                            if (cb) cb.checked = true;
-                        });
-                    }
-
-                    const btn = document.querySelector('#winery-form button');
-                    btn.innerText = "Actualizează Vinăria";
-                    btn.style.backgroundColor = "#d97706";
-                } else if (type === 'event') {
+                    document.querySelector('#winery-form button').innerText = "Actualizează Vinăria";
+                } else {
                     document.getElementById('e-title').value = item.title;
-                    document.getElementById('e-location').value = item.location;
-                    document.getElementById('e-image').value = item.image || "";
-                    document.getElementById('e-ticket').value = item.ticketUrl || "";
                     if (item.date) document.getElementById('e-date').value = item.date.split('T')[0];
-                    const btn = document.querySelector('#event-form button');
-                    btn.innerText = "Actualizează Evenimentul";
-                    btn.style.backgroundColor = "#d97706";
+                    document.querySelector('#event-form button').innerText = "Actualizează Evenimentul";
                 }
-                showNotification("Mod de editare activat!");
+                showNotification("Editare activată!");
             }
         }
 
-        async function loadData() {
-            try {
-                const wRes = await fetch('/api/wineries');
-                const eRes = await fetch('/api/events');
-                const sRes = await fetch('/api/admin/stats', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: adminPassword })
-                });
-
-                const wineries = await wRes.json();
-                const events = await eRes.json();
-                const stats = await sRes.json();
-
-                document.getElementById('stat-visits').innerText = stats.total_app_opens;
-                document.getElementById('stat-ai').innerText = stats.ai_interactions;
-                document.getElementById('stat-top').innerText = stats.topWineries[0]?.name || "N/A";
-
-                const wBody = document.getElementById('winery-table-body');
-                wBody.innerHTML = wineries.map(w => `
-                    <tr>
-                        <td class="px-6 py-4 font-bold text-gray-900">${w.name}</td>
-                        <td class="px-6 py-4 text-gray-500">${w.region}</td>
-                        <td class="px-6 py-4 text-right">
-                            <button onclick="prepareEdit('winery', '${w.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-
-                const eBody = document.getElementById('event-table-body');
-                eBody.innerHTML = events.map(e => `
-                    <tr>
-                        <td class="px-6 py-4 font-bold text-gray-900">${e.title}</td>
-                        <td class="px-6 py-4 text-gray-500">${e.displayDate}</td>
-                        <td class="px-6 py-4 text-right">
-                            <button onclick="prepareEdit('event', '${e.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
-                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (err) { console.error(err); }
-        }
-
         async function addWinery() {
-            const regionNode = document.querySelector('input[name="w-region"]:checked');
-            const amenities = Array.from(document.querySelectorAll('input[name="w-amenity"]:checked')).map(cb => cb.value);
-            const data = {
-                name: document.getElementById('w-name').value,
-                region: regionNode ? regionNode.value : 'Codru',
-                description: document.getElementById('w-desc').value,
-                imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
-                topWines: document.getElementById('w-wines').value.split(',').map(s => s.trim()),
-                amenities: amenities,
-                password: adminPassword
-            };
-
+            const data = { name: document.getElementById('w-name').value, description: document.getElementById('w-desc').value, imageUrl: document.getElementById('w-image').value, password: adminPassword };
             const url = editingId ? `/api/winery/${editingId}` : '/api/admin/winery';
-            const res = await fetch(url, {
-                method: editingId ? 'PUT' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
+            const res = await fetch(url, { method: editingId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
             if (res.ok) {
-                showNotification(editingId ? "Actualizat!" : "Adăugat!");
-                editingId = null;
-                document.getElementById('winery-form').reset();
-                const btn = document.querySelector('#winery-form button');
-                btn.innerText = "Salvează Vinăria";
-                btn.style.backgroundColor = "";
-                loadData();
+                showNotification("Succes!"); editingId = null; document.getElementById('winery-form').reset();
+                document.querySelector('#winery-form button').innerText = "Salvează Vinăria"; loadData();
             }
         }
 
         async function addEvent() {
             const rawDate = document.getElementById('e-date').value;
-            const data = {
-                title: document.getElementById('e-title').value,
-                date: new Date(rawDate).toISOString(),
-                displayDate: new Date(rawDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }),
-                location: document.getElementById('e-location').value,
-                image: document.getElementById('e-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
-                ticketUrl: document.getElementById('e-ticket').value || "https://iticket.md",
-                password: adminPassword
-            };
-
+            const data = { title: document.getElementById('e-title').value, date: new Date(rawDate).toISOString(), displayDate: new Date(rawDate).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }), password: adminPassword };
             const url = editingId ? `/api/event/${editingId}` : '/api/admin/event';
-            const res = await fetch(url, {
-                method: editingId ? 'PUT' : 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            if (res.ok) {
-                showNotification(editingId ? "Actualizat!" : "Adăugat!");
-                editingId = null;
-                document.getElementById('event-form').reset();
-                const btn = document.querySelector('#event-form button');
-                btn.innerText = "Salvează Evenimentul";
-                btn.style.backgroundColor = "";
-                loadData();
-            }
-        }
-
-        async function deleteItem(type, id) {
-            if (!confirm(`Sigur ștergi?`)) return;
-            const res = await fetch(`/api/admin/${type}/${id}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: adminPassword })
-            });
-            if (res.ok) { showNotification("Șters!"); loadData(); }
+            const res = await fetch(url, { method: editingId ? 'PUT' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (res.ok) { showNotification("Succes!"); editingId = null; document.getElementById('event-form').reset(); loadData(); }
         }
 
         async function publishArticle() {
-            const title = document.getElementById('art-title').value;
-            const subtitle = document.getElementById('art-subtitle').value;
-            const content = document.getElementById('art-content').value;
-            const image = document.getElementById('art-image').value;
-            if (!title || !content) return alert("Obligatoriu!");
-            const res = await fetch('/api/articles', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, subtitle, content, imageURL: image, password: adminPassword })
-            });
-            if (res.ok) { showNotification("Publicat!"); setTimeout(() => location.reload(), 1000); }
+            const data = { title: document.getElementById('art-title').value, subtitle: document.getElementById('art-subtitle').value, content: document.getElementById('art-content').value, imageURL: document.getElementById('art-image').value, password: adminPassword };
+            const res = await fetch('/api/articles', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (res.ok) { showNotification("Articol Publicat!"); location.reload(); }
+        }
+
+        async function deleteItem(type, id) {
+            if (!confirm("Ștergi?")) return;
+            const res = await fetch(`/api/admin/${type}/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword }) });
+            if (res.ok) loadData();
         }
     </script>
 </body>
