@@ -13,8 +13,6 @@ const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.75;
 const CARD_HEIGHT = 480;
 
-// ARTICLES variable removed, moved to articleStore.ts
-
 function WineryCard({ item, onPress }: { item: Winery; onPress: () => void }) {
   return (
     <TouchableOpacity activeOpacity={0.9} style={styles.cardContainer} onPress={onPress}>
@@ -29,28 +27,24 @@ function WineryCard({ item, onPress }: { item: Winery; onPress: () => void }) {
         >
           <View style={styles.cardInfo}>
             <View style={styles.topRow}>
-                <View style={styles.regionBadge}>
+              <View style={styles.regionBadge}>
                 <MapPin size={12} color="#fff" />
                 <Text style={styles.regionText}>{item.region}</Text>
-                </View>
-                <View style={styles.ratingRow}>
+              </View>
+              <View style={styles.ratingRow}>
                 <Star size={14} color="#FFD700" fill="#FFD700" />
                 <Text style={styles.ratingText}>{item.rating}</Text>
-                </View>
+              </View>
             </View>
-            
+
             <Text style={styles.cardName}>{item.name}</Text>
-            {/* <View style={styles.statusRow}>
-                <View style={styles.liveIndicator} />
-                <Text style={styles.liveText}>IGP {item.igpId.toUpperCase()}</Text>
-            </View> */}
-            
-            <TouchableOpacity 
-                style={styles.visitButton}
-                onPress={onPress}
+
+            <TouchableOpacity
+              style={styles.visitButton}
+              onPress={onPress}
             >
-                <ChevronRight size={18} color="#fff" />
-                <Text style={styles.visitButtonText}>Vezi Detalii</Text>
+              <ChevronRight size={18} color="#fff" />
+              <Text style={styles.visitButtonText}>Vezi Detalii</Text>
             </TouchableOpacity>
           </View>
         </LinearGradient>
@@ -83,44 +77,50 @@ export default function HomeScreen() {
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications);
     if (!showNotifications) {
-        Alert.alert('Notificări', 'Nu aveți notificări noi în acest moment.');
-        setShowNotifications(false);
+      Alert.alert('Notificări', 'Nu aveți notificări noi în acest moment.');
+      setShowNotifications(false);
     }
   };
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      {/* Header Overlay for Search */}
       {isSearchVisible && (
-          <BlurView intensity={90} tint="light" style={styles.searchOverlay}>
-              <View style={styles.searchBar}>
-                  <Search size={20} color="#666" />
-                  <TextInput 
-                    placeholder="Caută vinării, evenimente..." 
-                    style={styles.searchInput}
-                    autoFocus
-                  />
-                  <TouchableOpacity onPress={toggleSearch}>
-                      <X size={20} color="#1A1A1A" />
-                  </TouchableOpacity>
-              </View>
-          </BlurView>
+        <BlurView intensity={90} tint="light" style={styles.searchOverlay}>
+          <View style={styles.searchBar}>
+            <Search size={20} color="#666" />
+            <TextInput
+              placeholder="Caută vinării, evenimente..."
+              style={styles.searchInput}
+              autoFocus
+            />
+            <TouchableOpacity onPress={toggleSearch}>
+              <X size={20} color="#1A1A1A" />
+            </TouchableOpacity>
+          </View>
+        </BlurView>
       )}
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <View>
             <Text style={styles.greeting}>Descoperă</Text>
-            <Text style={styles.title}>Taste of Moldova</Text>
+            {/* Вот здесь мы добавили логотип и название в один ряд */}
+            <View style={styles.brandRow}>
+              <Image
+                source={require('../../assets/images/logo.png')}
+                style={styles.logo}
+              />
+              <Text style={styles.title}>Taste of Moldova</Text>
+            </View>
           </View>
           <View style={styles.headerIcons}>
-             <TouchableOpacity style={styles.iconButton} onPress={toggleSearch}>
-                 <Search size={22} color="#1A1A1A" />
-             </TouchableOpacity>
-             <TouchableOpacity style={styles.iconButton} onPress={toggleNotifications}>
-                 <Bell size={22} color="#1A1A1A" />
-                 <View style={styles.notificationDot} />
-             </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton} onPress={toggleSearch}>
+              <Search size={22} color="#1A1A1A" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton} onPress={toggleNotifications}>
+              <Bell size={22} color="#1A1A1A" />
+              <View style={styles.notificationDot} />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -132,48 +132,48 @@ export default function HomeScreen() {
         </View>
 
         {wineriesLoading ? (
-            <View style={[styles.sliderContent, { height: CARD_HEIGHT, justifyContent: 'center', alignItems: 'center' }]}>
-                <Text style={{ color: '#B81D24', fontWeight: '700' }}>Se încarcă vinăriile...</Text>
-            </View>
+          <View style={[styles.sliderContent, { height: CARD_HEIGHT, justifyContent: 'center', alignItems: 'center' }]}>
+            <Text style={{ color: '#B81D24', fontWeight: '700' }}>Se încarcă vinăriile...</Text>
+          </View>
         ) : (
-            <FlatList
+          <FlatList
             data={wineries}
             horizontal
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-                <WineryCard item={item} onPress={() => handleWineryPress(item)} />
+              <WineryCard item={item} onPress={() => handleWineryPress(item)} />
             )}
             contentContainerStyle={styles.sliderContent}
             snapToInterval={CARD_WIDTH + 20}
+            snapToAlignment="start"
             decelerationRate="fast"
-            />
+          />
         )}
 
-        {/* IGP SECTION EXPANDED */}
         <View style={styles.igpSection}>
-            <LinearGradient
-                colors={['#800020', '#4A0404']}
-                style={styles.igpGradient}
-            >
-                <View style={styles.igpHeader}>
-                    <Info size={24} color="#FFF" />
-                    <Text style={styles.igpTitle}>Sistemul IGP Moldova</Text>
-                </View>
-                <View style={styles.regionsGrid}>
-                    <View style={styles.regionChip}><Text style={styles.regionChipText}>Codru</Text></View>
-                    <View style={styles.regionChip}><Text style={styles.regionChipText}>Ștefan Vodă</Text></View>
-                    <View style={styles.regionChip}><Text style={styles.regionChipText}>Valul lui Traian</Text></View>
-                    <View style={styles.regionChip}><Text style={styles.regionChipText}>DIVIN</Text></View>
-                </View>
-                <Text style={styles.igpText}>
-                    Sistemul Indicațiilor Geografice Protejate (IGP) garantează calitatea și originea vinurilor noastre prin 3 regiuni distincte: **Codru**, **Ștefan Vodă** și **Valul lui Traian**.{"\n\n"}
-                    **IGP DIVIN**: Această categorie specială protejează prestigiul distilatelor de vin moldovenești, învechite în butoaie de stejar, recunoscute global pentru aromele de ambră și vanilie.
-                </Text>
-                <TouchableOpacity style={styles.igpButton} onPress={() => router.push('/(tabs)/map')}>
-                    <Text style={styles.igpButtonText}>Vezi pe Hartă</Text>
-                </TouchableOpacity>
-            </LinearGradient>
+          <LinearGradient
+            colors={['#800020', '#4A0404']}
+            style={styles.igpGradient}
+          >
+            <View style={styles.igpHeader}>
+              <Info size={24} color="#FFF" />
+              <Text style={styles.igpTitle}>Sistemul IGP Moldova</Text>
+            </View>
+            <View style={styles.regionsGrid}>
+              <View style={styles.regionChip}><Text style={styles.regionChipText}>Codru</Text></View>
+              <View style={styles.regionChip}><Text style={styles.regionChipText}>Ștefan Vodă</Text></View>
+              <View style={styles.regionChip}><Text style={styles.regionChipText}>Valul lui Traian</Text></View>
+              <View style={styles.regionChip}><Text style={styles.regionChipText}>DIVIN</Text></View>
+            </View>
+            <Text style={styles.igpText}>
+              Sistemul Indicațiilor Geografice Protejate (IGP) garantează calitatea și originea vinurilor noastre prin 3 regiuni distincte: **Codru**, **Ștefan Vodă** și **Valul lui Traian**.{"\n\n"}
+              **IGP DIVIN**: Această categorie specială protejează prestigiul distilatelor de vin moldovenești, învechite în butoaie de stejar, recunoscute global pentru aromele de ambră și vanilie.
+            </Text>
+            <TouchableOpacity style={styles.igpButton} onPress={() => router.push('/(tabs)/map')}>
+              <Text style={styles.igpButtonText}>Vezi pe Hartă</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
 
         <View style={styles.sectionHeader}>
@@ -182,18 +182,18 @@ export default function HomeScreen() {
 
         <View style={styles.articlesList}>
           {articles.map((item) => (
-            <TouchableOpacity 
-                key={item.id} 
-                style={styles.articleItem}
-                onPress={() => router.push({ pathname: '/article/[id]', params: { id: item.id } })}
+            <TouchableOpacity
+              key={item.id}
+              style={styles.articleItem}
+              onPress={() => router.push({ pathname: '/article/[id]', params: { id: item.id } })}
             >
-                <Image source={{ uri: item.image }} style={styles.articleImage} />
-                <View style={styles.articleContent}>
-                    <Text style={styles.articleCategory}>{item.category}</Text>
-                    <Text style={styles.articleTitle}>{item.title}</Text>
-                    <Text style={styles.articleMeta}>{item.time}</Text>
-                </View>
-                <ChevronRight size={20} color="#CCC" />
+              <Image source={{ uri: item.image }} style={styles.articleImage} />
+              <View style={styles.articleContent}>
+                <Text style={styles.articleCategory}>{item.category}</Text>
+                <Text style={styles.articleTitle}>{item.title}</Text>
+                <Text style={styles.articleMeta}>{item.time}</Text>
+              </View>
+              <ChevronRight size={20} color="#CCC" />
             </TouchableOpacity>
           ))}
         </View>
@@ -221,15 +221,25 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   greeting: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#666',
     fontWeight: '500',
+    marginBottom: 2,
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 35,
+    height: 35,
+    marginRight: 10,
+    resizeMode: 'contain',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: '800',
     color: '#1A1A1A',
-    marginTop: -2,
   },
   headerIcons: {
     flexDirection: 'row',
@@ -244,42 +254,42 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   notificationDot: {
-      position: 'absolute',
-      top: 12,
-      right: 12,
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-      backgroundColor: '#B81D24',
-      borderWidth: 1.5,
-      borderColor: '#FFF',
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#B81D24',
+    borderWidth: 1.5,
+    borderColor: '#FFF',
   },
   searchOverlay: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: 120,
-      zIndex: 100,
-      paddingTop: Platform.OS === 'ios' ? 50 : 20,
-      paddingHorizontal: 20,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 120,
+    zIndex: 100,
+    paddingTop: Platform.OS === 'ios' ? 50 : 20,
+    paddingHorizontal: 20,
   },
   searchBar: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#FFF',
-      borderRadius: 20,
-      paddingHorizontal: 15,
-      height: 50,
-      shadowColor: '#000',
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      elevation: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    height: 50,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   searchInput: {
-      flex: 1,
-      marginLeft: 10,
-      fontSize: 16,
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -351,23 +361,6 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginBottom: 4,
   },
-  statusRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 6,
-      marginBottom: 16,
-  },
-  liveIndicator: {
-      width: 6,
-      height: 6,
-      borderRadius: 3,
-      backgroundColor: '#4ade80',
-  },
-  liveText: {
-      color: 'rgba(255, 255, 255, 0.8)',
-      fontSize: 12,
-      fontWeight: '600',
-  },
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -383,13 +376,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   cardInfo: {
-      gap: 4
-  },
-  cardDesc: {
-    color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: 14,
-    lineHeight: 20,
-    marginBottom: 20,
+    gap: 4
   },
   visitButton: {
     flexDirection: 'row',
@@ -406,59 +393,59 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   igpSection: {
-      marginHorizontal: 24,
-      marginBottom: 30,
-      borderRadius: 32,
-      overflow: 'hidden',
+    marginHorizontal: 24,
+    marginBottom: 30,
+    borderRadius: 32,
+    overflow: 'hidden',
   },
   igpGradient: {
-      padding: 24,
+    padding: 24,
   },
   igpHeader: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-      marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
   },
   igpTitle: {
-      fontSize: 24,
-      fontWeight: '800',
-      color: '#FFF',
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#FFF',
   },
   regionsGrid: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      gap: 8,
-      marginBottom: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
   },
   regionChip: {
-      backgroundColor: 'rgba(255,255,255,0.15)',
-      paddingHorizontal: 10,
-      paddingVertical: 4,
-      borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
   },
   regionChipText: {
-      color: '#FFF',
-      fontSize: 11,
-      fontWeight: '700',
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: '700',
   },
   igpText: {
-      color: 'rgba(255,255,255,0.8)',
-      fontSize: 15,
-      lineHeight: 22,
-      marginBottom: 20,
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 15,
+    lineHeight: 22,
+    marginBottom: 20,
   },
   igpButton: {
-      backgroundColor: '#FFF',
-      paddingVertical: 12,
-      paddingHorizontal: 20,
-      borderRadius: 14,
-      alignSelf: 'flex-start',
+    backgroundColor: '#FFF',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+    alignSelf: 'flex-start',
   },
   igpButtonText: {
-      color: '#800020',
-      fontWeight: '700',
-      fontSize: 14,
+    color: '#800020',
+    fontWeight: '700',
+    fontSize: 14,
   },
   articlesList: {
     paddingHorizontal: 24,
