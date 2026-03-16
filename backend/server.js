@@ -213,7 +213,22 @@ app.get('/api/health', (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+// Универсальная команда для изменения данных (Винодельни, События, Статьи)
+app.put('/api/:type/:id', adminAuth, (req, res) => {
+    const { type, id } = req.params;
+    const fileName = `${type}.json`; // Например: wineries.json
+    let items = getData(fileName);
 
+    const index = items.findIndex(item => item.id == id);
+    if (index !== -1) {
+        // Берем то, что было, и заменяем на то, что ты прислала в форме
+        items[index] = { ...items[index], ...req.body };
+        saveData(fileName, items);
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ error: "Nu a fost găsit" });
+    }
+});
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server is running on port ${PORT}`);
     console.log(`🔑 Admin Dashboard: /admin`);
