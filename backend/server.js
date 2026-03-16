@@ -121,6 +121,7 @@ app.post('/api/admin/winery', adminAuth, (req, res) => {
         description: req.body.description,
         imageUrl: req.body.imageUrl,
         topWines: req.body.topWines,
+        amenities: req.body.amenities || [],
         rating: 5.0,
         coordinates: { latitude: 47.0, longitude: 28.5 } // Default for now
     };

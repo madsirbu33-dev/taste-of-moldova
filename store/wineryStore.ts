@@ -17,6 +17,7 @@ export interface Winery {
   imageUrl: string;
   logoUrl?: string;
   rating: number;
+  amenities?: string[];
   websiteUrl: string;
   bookingUrl: string;
   contactInfo?: {
