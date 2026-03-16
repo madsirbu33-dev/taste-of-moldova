@@ -69,7 +69,6 @@
                 <form id="winery-form" onsubmit="event.preventDefault(); addWinery();" class="space-y-4">
                     <input type="text" id="w-name" placeholder="Nume Vinărie" required
                         class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl outline-none">
-
                     <div class="space-y-2">
                         <label class="block text-sm font-bold text-gray-700">Regiune IGP</label>
                         <div class="grid grid-cols-2 gap-3">
@@ -81,14 +80,12 @@
                                     type="radio" name="w-region" value="Ștefan Vodă"> <span>Ștefan Vodă</span></label>
                         </div>
                     </div>
-
                     <textarea id="w-desc" placeholder="Descriere Scurtă" required
                         class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl h-24"></textarea>
                     <input type="text" id="w-image" placeholder="URL Imagine"
                         class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
                     <input type="text" id="w-wines" placeholder="Vinuri de Top (separate prin virgula)"
                         class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl">
-
                     <button type="submit"
                         class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition">Salvează
                         Vinăria</button>
@@ -181,29 +178,35 @@
             setTimeout(() => { el.classList.add('translate-x-80'); }, 3000);
         }
 
-        function prepareEdit(type, item) {
-            editingId = item.id;
+        async function prepareEdit(type, id) {
+            editingId = id;
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            if (type === 'winery') {
-                document.getElementById('w-name').value = item.name;
-                document.getElementById('w-desc').value = item.description;
-                document.getElementById('w-image').value = item.imageUrl || "";
-                document.getElementById('w-wines').value = item.topWines ? item.topWines.join(', ') : "";
-                const btn = document.querySelector('#winery-form button');
-                btn.innerText = "Actualizează Vinăria";
-                btn.style.backgroundColor = "#d97706";
-            } else if (type === 'event') {
-                document.getElementById('e-title').value = item.title;
-                document.getElementById('e-location').value = item.location;
-                document.getElementById('e-image').value = item.image || "";
-                document.getElementById('e-ticket').value = item.ticketUrl || "";
-                if (item.date) document.getElementById('e-date').value = item.date.split('T')[0];
-                const btn = document.querySelector('#event-form button');
-                btn.innerText = "Actualizează Evenimentul";
-                btn.style.backgroundColor = "#d97706";
+            const res = await fetch(type === 'winery' ? '/api/wineries' : '/api/events');
+            const items = await res.json();
+            const item = items.find(x => x.id == id);
+
+            if (item) {
+                if (type === 'winery') {
+                    document.getElementById('w-name').value = item.name;
+                    document.getElementById('w-desc').value = item.description;
+                    document.getElementById('w-image').value = item.imageUrl || "";
+                    document.getElementById('w-wines').value = item.topWines ? item.topWines.join(', ') : "";
+                    const btn = document.querySelector('#winery-form button');
+                    btn.innerText = "Actualizează Vinăria";
+                    btn.style.backgroundColor = "#d97706";
+                } else if (type === 'event') {
+                    document.getElementById('e-title').value = item.title;
+                    document.getElementById('e-location').value = item.location;
+                    document.getElementById('e-image').value = item.image || "";
+                    document.getElementById('e-ticket').value = item.ticketUrl || "";
+                    if (item.date) document.getElementById('e-date').value = item.date.split('T')[0];
+                    const btn = document.querySelector('#event-form button');
+                    btn.innerText = "Actualizează Evenimentul";
+                    btn.style.backgroundColor = "#d97706";
+                }
+                showNotification("Mod de editare activat!");
             }
-            showNotification("Mod de editare activat!");
         }
 
         async function loadData() {
@@ -230,7 +233,7 @@
                         <td class="px-6 py-4 font-bold text-gray-900">${w.name}</td>
                         <td class="px-6 py-4 text-gray-500">${w.region}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick='prepareEdit("winery", ${JSON.stringify(w)})' class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
+                            <button onclick="prepareEdit('winery', '${w.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
                             <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
@@ -242,7 +245,7 @@
                         <td class="px-6 py-4 font-bold text-gray-900">${e.title}</td>
                         <td class="px-6 py-4 text-gray-500">${e.displayDate}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick='prepareEdit("event", ${JSON.stringify(e)})' class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
+                            <button onclick="prepareEdit('event', '${e.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-lg mr-2 transition"><i class="fas fa-edit"></i></button>
                             <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
@@ -261,7 +264,6 @@
                 password: adminPassword
             };
 
-            // ВАЖНО: Используем обратные кавычки `` для URL
             const url = editingId ? `/api/winery/${editingId}` : '/api/admin/winery';
             const res = await fetch(url, {
                 method: editingId ? 'PUT' : 'POST',
@@ -292,7 +294,6 @@
                 password: adminPassword
             };
 
-            // ВАЖНО: Используем обратные кавычки `` для URL
             const url = editingId ? `/api/event/${editingId}` : '/api/admin/event';
             const res = await fetch(url, {
                 method: editingId ? 'PUT' : 'POST',
@@ -319,18 +320,6 @@
                 body: JSON.stringify({ password: adminPassword })
             });
             if (res.ok) { showNotification("Șters!"); loadData(); }
-        }
-
-        async function publishArticle() {
-            const title = document.getElementById('art-title').value;
-            const content = document.getElementById('art-content').value;
-            if (!title || !content) return alert("Obligatoriu!");
-            const res = await fetch('/api/articles', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, content, password: adminPassword })
-            });
-            if (res.ok) { showNotification("Publicat!"); setTimeout(() => location.reload(), 1000); }
         }
     </script>
 </body>
