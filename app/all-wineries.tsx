@@ -284,6 +284,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 12,
     gap: 6,
+    minHeight: 44,
   },
   detailsButtonText: {
     color: '#FFF',
@@ -321,6 +322,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#F5F5F5',
       borderWidth: 1,
       borderColor: '#EEE',
+      minHeight: 44,
+      justifyContent: 'center',
   },
   filterChipActive: {
       backgroundColor: '#B81D24',

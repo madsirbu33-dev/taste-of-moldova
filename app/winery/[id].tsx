@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { API_CONFIG } from '../../constants/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MapPin, Star, Globe, Calendar, ChevronLeft, Info, Trophy, Phone, Mail } from 'lucide-react-native';
@@ -9,6 +9,7 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useWineryStore } from '../../store/wineryStore';
 import * as Linking from 'expo-linking';
+import Toast from '../../components/Toast';
 
 const { width } = Dimensions.get('window');
 
@@ -16,8 +17,15 @@ export default function WineryDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { wineries } = useWineryStore();
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
   
   const winery = wineries.find(w => w.id === id);
+
+  const showToast = (msg: string) => {
+      setToastMessage(msg);
+      setToastVisible(true);
+  };
 
   useEffect(() => {
     if (winery) {
@@ -106,13 +114,31 @@ export default function WineryDetailScreen() {
             </ScrollView>
           </View>
 
+          {winery.amenities && winery.amenities.length > 0 && (
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Facilități</Text>
+              </View>
+              <View style={styles.amenitiesGrid}>
+                  {winery.amenities.map((amenity, index) => (
+                      <View key={index} style={styles.amenityBadge}>
+                          <Text style={styles.amenityText}>{amenity}</Text>
+                      </View>
+                  ))}
+              </View>
+            </View>
+          )}
+
           {winery.contactInfo && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Contact & Reservări</Text>
               <View style={styles.contactContainer}>
                 <TouchableOpacity 
                   style={styles.contactItem}
-                  onPress={() => Linking.openURL(`tel:${winery.contactInfo?.phone}`)}
+                  onPress={() => {
+                      showToast('Apelare...');
+                      setTimeout(() => Linking.openURL(`tel:${winery.contactInfo?.phone}`), 500);
+                  }}
                 >
                   <View style={styles.contactIcon}>
                     <Phone size={18} color="#B81D24" />
@@ -123,7 +149,10 @@ export default function WineryDetailScreen() {
 
                 <TouchableOpacity 
                   style={styles.contactItem}
-                  onPress={() => Linking.openURL(`mailto:${winery.contactInfo?.email}`)}
+                  onPress={() => {
+                      showToast('Se deschide clientul de email...');
+                      setTimeout(() => Linking.openURL(`mailto:${winery.contactInfo?.email}`), 500);
+                  }}
                 >
                   <View style={styles.contactIcon}>
                     <Mail size={18} color="#B81D24" />
@@ -143,19 +172,26 @@ export default function WineryDetailScreen() {
       <BlurView intensity={90} tint="light" style={styles.bottomActions}>
           <TouchableOpacity 
             style={styles.secondaryAction}
-            onPress={() => Linking.openURL(winery.websiteUrl)}
+            onPress={() => {
+                showToast('Deschidere Website...');
+                setTimeout(() => Linking.openURL(winery.websiteUrl), 500);
+            }}
           >
             <Globe size={20} color="#B81D24" />
             <Text style={styles.secondaryText}>Website</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.primaryAction}
-            onPress={() => Linking.openURL(winery.bookingUrl)}
+            onPress={() => {
+                showToast('Redirecționare spre rezervare...');
+                setTimeout(() => Linking.openURL(winery.bookingUrl), 500);
+            }}
           >
             <Calendar size={20} color="#FFF" />
             <Text style={styles.primaryText}>Rezervă Acum</Text>
           </TouchableOpacity>
       </BlurView>
+      <Toast message={toastMessage} visible={toastVisible} onHide={() => setToastVisible(false)} type="info" />
     </View>
   );
 }
@@ -281,12 +317,39 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#EEE',
       minWidth: 140,
+      minHeight: 44,
       alignItems: 'center',
   },
   wineName: {
       fontSize: 14,
       fontWeight: '700',
       color: '#1A1A1A',
+  },
+  amenitiesGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 10,
+  },
+  amenityBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#FFF',
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+      borderRadius: 14,
+      borderWidth: 1,
+      borderColor: '#EEE',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
+      elevation: 2,
+      minHeight: 44,
+  },
+  amenityText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: '#444',
   },
   contactContainer: {
     marginTop: 15,
@@ -300,6 +363,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#F0F0F0',
+    minHeight: 44,
   },
   contactIcon: {
     width: 40,

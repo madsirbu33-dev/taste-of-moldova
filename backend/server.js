@@ -83,6 +83,15 @@ app.get('/api/events', (req, res) => {
     }
 });
 
+app.get('/api/articles', (req, res) => {
+    try {
+        const articles = getData('articles.json');
+        res.json(articles);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch articles' });
+    }
+});
+
 // Analytics Track Endpoint
 app.post('/api/analytics/track', (req, res) => {
     const { type, id } = req.body;
@@ -94,10 +103,10 @@ app.post('/api/analytics/track', (req, res) => {
 app.post('/api/admin/stats', adminAuth, (req, res) => {
     const stats = getData('analytics.json');
     const wineries = getData('wineries.json');
-    
+
     // Sort top wineries
     const topWineries = Object.entries(stats.winery_views)
-        .sort(([,a], [,b]) => b - a)
+        .sort(([, a], [, b]) => b - a)
         .slice(0, 3)
         .map(([id, views]) => ({
             name: wineries.find(w => w.id === id)?.name || id,
@@ -163,9 +172,43 @@ app.delete('/api/admin/event/:id', adminAuth, (req, res) => {
     res.json({ success: true });
 });
 
+app.post('/api/admin/article', adminAuth, (req, res) => {
+    const articles = getData('articles.json');
+    const newArticle = {
+        id: 'a' + Date.now().toString(),
+        title: req.body.title,
+        category: req.body.category,
+        time: req.body.time || '5 min lectură',
+        image: req.body.image || 'https://images.unsplash.com/photo-1510850402280-d23a1f7c8993?auto=format&fit=crop&w=800&q=80',
+        author: req.body.author,
+        date: req.body.date,
+        content: req.body.content
+    };
+    articles.push(newArticle);
+    saveData('articles.json', articles);
+    res.status(201).json(newArticle);
+});
+
+app.delete('/api/admin/article/:id', adminAuth, (req, res) => {
+    let articles = getData('articles.json');
+    articles = articles.filter(a => a.id !== req.params.id);
+    saveData('articles.json', articles);
+    res.json({ success: true });
+});
+app.post('/api/articles', adminAuth, (req, res) => {
+    const articles = getData('articles.json');
+    const newArticle = {
+        id: Date.now(),
+        ...req.body,
+        date: new Date().toLocaleDateString('ro-RO')
+    };
+    articles.push(newArticle);
+    saveData('articles.json', articles);
+    res.json(newArticle);
+});
 app.get('/api/health', (req, res) => {
-    res.json({ 
-        status: 'ok', 
+    res.json({
+        status: 'ok',
         message: 'Taste of Moldova API is running',
         timestamp: new Date().toISOString()
     });

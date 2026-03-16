@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-50 min-h-screen">
     <!-- Navbar -->
     <nav class="bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <span class="text-2xl font-bold text-red-700"><i class="fas fa-wine-glass-alt mr-2"></i>Taste of Moldova</span>
-                    <span class="ml-4 px-3 py-1 bg-red-50 text-red-700 text-xs font-bold rounded-full uppercase tracking-wider">Admin</span>
+                    <span class="text-2xl font-bold text-red-700"><i class="fas fa-wine-glass-alt mr-2"></i>Taste of
+                        Moldova</span>
+                    <span
+                        class="ml-4 px-3 py-1 bg-red-50 text-red-700 text-xs font-bold rounded-full uppercase tracking-wider">Admin</span>
                 </div>
                 <div class="flex items-center">
                     <button onclick="logout()" class="text-gray-500 hover:text-red-700 transition">
@@ -28,8 +32,10 @@
     <!-- Main Content -->
     <div id="login-screen" class="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-gray-100">
         <h2 class="text-2xl font-extrabold text-gray-900 mb-6 text-center">Accesează Dashboard</h2>
-        <input type="password" id="password" placeholder="Parolă" class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-red-500 outline-none transition">
-        <button onclick="login()" class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition shadow-lg shadow-red-200">Login</button>
+        <input type="password" id="password" placeholder="Parolă"
+            class="w-full px-4 py-3 border border-gray-200 rounded-xl mb-4 focus:ring-2 focus:ring-red-500 outline-none transition">
+        <button onclick="login()"
+            class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition shadow-lg shadow-red-200">Login</button>
     </div>
 
     <div id="dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 hidden">
@@ -40,21 +46,25 @@
         </div>
 
         <!-- Feedback UI -->
-        <div id="notification" class="fixed top-20 right-8 px-6 py-3 bg-[#B81D24] text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
+        <div id="notification"
+            class="fixed top-20 right-8 px-6 py-3 bg-[#B81D24] text-white font-bold rounded-xl shadow-2xl transform translate-x-80 transition-transform duration-300 z-50">
             Success!
         </div>
 
         <!-- Live Statistics Footer -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm cursor-help relative group"
+                title="Numărul total de dăți în care aplicația a fost deschisă de către utilizatori.">
                 <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Vizite Totale</p>
                 <h3 id="stat-visits" class="text-3xl font-black text-[#1A1A1A]">0</h3>
             </div>
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm cursor-help relative group"
+                title="Numărul de interacțiuni ale utilizatorilor cu ghidul AI inteligent.">
                 <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Utilizări AI</p>
                 <h3 id="stat-ai" class="text-3xl font-black text-[#B81D24]">0</h3>
             </div>
-            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm cursor-help relative group"
+                title="Vinăria cu cele mai mutle vizualizări în catalogul aplicației.">
                 <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Top Vinărie</p>
                 <h3 id="stat-top" class="text-xl font-bold text-[#A68940]">Se încarcă...</h3>
             </div>
@@ -70,17 +80,84 @@
                     <h2 class="text-xl font-bold">Adaugă Vinărie</h2>
                 </div>
                 <form id="winery-form" onsubmit="event.preventDefault(); addWinery();" class="space-y-4">
-                    <input type="text" id="w-name" placeholder="Nume Vinărie" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
-                    <select id="w-region" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
-                        <option value="Codru text-black">Codru</option>
-                        <option value="Ștefan Vodă">Ștefan Vodă</option>
-                        <option value="Valul lui Traian">Valul lui Traian</option>
-                        <option value="Divin">Divin</option>
-                    </select>
-                    <textarea id="w-desc" placeholder="Descriere Scurtă" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition h-24"></textarea>
-                    <input type="text" id="w-image" placeholder="URL Imagine" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
-                    <input type="text" id="w-wines" placeholder="Vinuri de Top (separate prin virgula)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition">
-                    <button type="submit" class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition">Salvează Vinăria</button>
+                    <input type="text" id="w-name" placeholder="Nume Vinărie" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition min-h-[44px]">
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Regiune IGP</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-white hover:border-red-200 hover:ring-1 hover:ring-red-200 transition min-h-[44px]">
+                                <input type="radio" name="w-region" value="Codru"
+                                    class="text-red-600 focus:ring-red-500 w-4 h-4 cursor-pointer" checked>
+                                <span class="text-gray-700 font-medium text-sm">Codru</span>
+                            </label>
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-white hover:border-red-200 hover:ring-1 hover:ring-red-200 transition min-h-[44px]">
+                                <input type="radio" name="w-region" value="Ștefan Vodă"
+                                    class="text-red-600 focus:ring-red-500 w-4 h-4 cursor-pointer">
+                                <span class="text-gray-700 font-medium text-sm">Ștefan Vodă</span>
+                            </label>
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-white hover:border-red-200 hover:ring-1 hover:ring-red-200 transition min-h-[44px]">
+                                <input type="radio" name="w-region" value="Valul lui Traian"
+                                    class="text-red-600 focus:ring-red-500 w-4 h-4 cursor-pointer">
+                                <span class="text-gray-700 font-medium text-sm">Valul lui Traian</span>
+                            </label>
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-white hover:border-red-200 hover:ring-1 hover:ring-red-200 transition min-h-[44px]">
+                                <input type="radio" name="w-region" value="Divin"
+                                    class="text-red-600 focus:ring-red-500 w-4 h-4 cursor-pointer">
+                                <span class="text-gray-700 font-medium text-sm">Divin</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Facilități</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="Parking"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Parcare</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="Restaurant"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Restaurant</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="Hotel"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Hotel</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="Wine Tasting"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Degustare</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="WiFi"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Wi-Fi</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]">
+                                <input type="checkbox" name="w-amenity" value="Pool"
+                                    class="w-5 h-5 text-red-600 rounded focus:ring-red-500 border-gray-300">
+                                <span class="text-gray-700 text-sm">Piscină</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <textarea id="w-desc" placeholder="Descriere Scurtă" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition h-24"></textarea>
+                    <input type="text" id="w-image" placeholder="URL Imagine"
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition min-h-[44px]">
+                    <input type="text" id="w-wines" placeholder="Vinuri de Top (separate prin virgula)"
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-500 outline-none transition min-h-[44px]">
+                    <button type="submit"
+                        class="w-full bg-red-700 text-white font-bold py-3 rounded-xl hover:bg-red-800 transition min-h-[44px]">Salvează
+                        Vinăria</button>
                 </form>
             </div>
 
@@ -93,12 +170,19 @@
                     <h2 class="text-xl font-bold">Adaugă Eveniment</h2>
                 </div>
                 <form id="event-form" onsubmit="event.preventDefault(); addEvent();" class="space-y-4">
-                    <input type="text" id="e-title" placeholder="Titlu Eveniment" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <input type="date" id="e-date" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <input type="text" id="e-location" placeholder="Locație" required class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <input type="text" id="e-image" placeholder="URL Imagine (ex: unsplash.com/...)" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <input type="text" id="e-ticket" placeholder="URL Bilete" class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
-                    <button type="submit" class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează Evenimentul</button>
+                    <input type="text" id="e-title" placeholder="Titlu Eveniment" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="date" id="e-date" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-location" placeholder="Locație" required
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-image" placeholder="URL Imagine (ex: unsplash.com/...)"
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="e-ticket" placeholder="URL Bilete"
+                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <button type="submit"
+                        class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează
+                        Evenimentul</button>
                 </form>
             </div>
         </div>
@@ -107,14 +191,26 @@
         <div class="mt-12 space-y-12">
             <!-- Wineries Table -->
             <div>
-                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-warehouse mr-3 text-red-700"></i> Vinării Existente</h3>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <h3 class="text-xl font-bold flex items-center"><i class="fas fa-warehouse mr-3 text-red-700"></i>
+                        Vinării Existente</h3>
+                    <div class="relative w-full md:w-72">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                        <input type="text" onkeyup="searchTable('winery-table-body', this.value)"
+                            placeholder="Caută vinărie..."
+                            class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 outline-none text-sm transition min-h-[44px]">
+                    </div>
+                </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                     <table class="w-full text-left">
                         <thead class="bg-gray-50 border-b border-gray-100">
                             <tr>
                                 <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nume</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Regiune</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acțiuni</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Regiune
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
+                                    Acțiuni</th>
                             </tr>
                         </thead>
                         <tbody id="winery-table-body" class="divide-y divide-gray-50">
@@ -126,14 +222,26 @@
 
             <!-- Events Table -->
             <div>
-                <h3 class="text-xl font-bold mb-6 flex items-center"><i class="fas fa-calendar-alt mr-3 text-blue-700"></i> Evenimente Existente</h3>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <h3 class="text-xl font-bold flex items-center"><i
+                            class="fas fa-calendar-alt mr-3 text-blue-700"></i> Evenimente Existente</h3>
+                    <div class="relative w-full md:w-72">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+                        <input type="text" onkeyup="searchTable('event-table-body', this.value)"
+                            placeholder="Caută eveniment..."
+                            class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition min-h-[44px]">
+                    </div>
+                </div>
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                     <table class="w-full text-left">
                         <thead class="bg-gray-50 border-b border-gray-100">
                             <tr>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Titlu</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Titlu
+                                </th>
                                 <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Data</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Acțiuni</th>
+                                <th
+                                    class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
+                                    Acțiuni</th>
                             </tr>
                         </thead>
                         <tbody id="event-table-body" class="divide-y divide-gray-50">
@@ -144,7 +252,21 @@
             </div>
         </div>
     </div>
-
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8">
+        <h2 class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">📝 Adaugă Articol Nou</h2>
+        <div class="grid gap-4">
+            <input type="text" id="art-title" class="p-3 border rounded-lg w-full"
+                placeholder="Titlu Articol (ex: Diplomația Vinului)">
+            <input type="text" id="art-subtitle" class="p-3 border rounded-lg w-full"
+                placeholder="Subtitlu / Scurtă descriere">
+            <textarea id="art-content" class="p-3 border rounded-lg w-full h-40"
+                placeholder="Conținutul articolului..."></textarea>
+            <input type="text" id="art-image" class="p-3 border rounded-lg w-full" placeholder="URL Imagine">
+            <button onclick="publishArticle()"
+                class="bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors">Publică
+                Articolul</button>
+        </div>
+    </div>
     <script>
         let adminPassword = "";
 
@@ -200,7 +322,7 @@
                         <td class="px-6 py-4 font-bold text-gray-900">${w.name}</td>
                         <td class="px-6 py-4 text-gray-500">${w.region}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:text-red-700 font-bold">Șterge</button>
+                            <button onclick="deleteItem('winery', '${w.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg font-bold min-h-[44px] min-w-[44px] transition">Șterge</button>
                         </td>
                     </tr>
                 `).join('');
@@ -212,7 +334,7 @@
                         <td class="px-6 py-4 font-bold text-gray-900">${e.title}</td>
                         <td class="px-6 py-4 text-gray-500">${e.displayDate}</td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:text-red-700 font-bold">Șterge</button>
+                            <button onclick="deleteItem('event', '${e.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg font-bold min-h-[44px] min-w-[44px] transition">Șterge</button>
                         </td>
                     </tr>
                 `).join('');
@@ -222,12 +344,17 @@
         }
 
         async function addWinery() {
+            const regionNode = document.querySelector('input[name="w-region"]:checked');
+            const region = regionNode ? regionNode.value : 'Codru';
+            const amenities = Array.from(document.querySelectorAll('input[name="w-amenity"]:checked')).map(cb => cb.value);
+
             const data = {
                 name: document.getElementById('w-name').value,
-                region: document.getElementById('w-region').value,
+                region: region,
                 description: document.getElementById('w-desc').value,
                 imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop",
                 topWines: document.getElementById('w-wines').value.split(',').map(s => s.trim()),
+                amenities: amenities,
                 password: adminPassword
             };
 
@@ -289,6 +416,46 @@
                 alert("Unauthorized or Error");
             }
         }
+
+        function searchTable(tbodyId, query) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            const rows = tbody.getElementsByTagName('tr');
+            const lowerQuery = query.toLowerCase();
+
+            Array.from(rows).forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(lowerQuery) ? '' : 'none';
+            });
+        }
+        async function publishArticle() {
+            const title = document.getElementById('art-title').value;
+            const subtitle = document.getElementById('art-subtitle').value;
+            const content = document.getElementById('art-content').value;
+            const image = document.getElementById('art-image').value;
+
+            if (!title || !content) return alert("Titlul și conținutul sunt obligatorii!");
+
+            const res = await fetch('/api/articles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title,
+                    subtitle,
+                    content,
+                    imageURL: image,
+                    password: adminPassword
+                })
+            });
+
+            if (res.ok) {
+                showNotification("Articol publicat cu succes!");
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                alert("Eroare la publicare. Verifică parola.");
+            }
+        }
     </script>
 </body>
+
 </html>
