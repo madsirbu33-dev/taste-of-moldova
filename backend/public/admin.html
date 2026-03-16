@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
                 <h2 class="text-xl font-bold mb-6 flex items-center"><i
                         class="fas fa-plus text-red-700 mr-4"></i>Adaugă/Editează Vinărie</h2>
@@ -78,8 +78,43 @@
                             <label
                                 class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
                                     type="radio" name="w-region" value="Ștefan Vodă"> <span>Ștefan Vodă</span></label>
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
+                                    type="radio" name="w-region" value="Valul lui Traian"> <span>Valul lui
+                                    Traian</span></label>
+                            <label
+                                class="flex items-center space-x-2 bg-gray-50 p-3 rounded-xl border border-gray-100 cursor-pointer"><input
+                                    type="radio" name="w-region" value="Divin"> <span>Divin</span></label>
                         </div>
                     </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-bold text-gray-700">Facilități</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="Parking"
+                                    class="w-5 h-5 text-red-600 rounded"> <span
+                                    class="text-gray-700 text-sm">Parcare</span></label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="Restaurant"
+                                    class="w-5 h-5 text-red-600 rounded"> <span
+                                    class="text-gray-700 text-sm">Restaurant</span></label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="Hotel" class="w-5 h-5 text-red-600 rounded">
+                                <span class="text-gray-700 text-sm">Hotel</span></label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="Wine Tasting"
+                                    class="w-5 h-5 text-red-600 rounded"> <span
+                                    class="text-gray-700 text-sm">Degustare</span></label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="WiFi" class="w-5 h-5 text-red-600 rounded">
+                                <span class="text-gray-700 text-sm">Wi-Fi</span></label>
+                            <label class="flex items-center space-x-2 cursor-pointer min-h-[44px]"><input
+                                    type="checkbox" name="w-amenity" value="Pool" class="w-5 h-5 text-red-600 rounded">
+                                <span class="text-gray-700 text-sm">Piscină</span></label>
+                        </div>
+                    </div>
+
                     <textarea id="w-desc" placeholder="Descriere Scurtă" required
                         class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl h-24"></textarea>
                     <input type="text" id="w-image" placeholder="URL Imagine"
@@ -110,6 +145,32 @@
                         class="w-full bg-blue-700 text-white font-bold py-3 rounded-xl hover:bg-blue-800 transition">Salvează
                         Evenimentul</button>
                 </form>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-12 w-full lg:w-1/2">
+            <div class="flex items-center mb-6">
+                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mr-4">
+                    <i class="fas fa-file-alt text-red-600"></i>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800">Adaugă Articol Nou</h2>
+            </div>
+            <div class="grid gap-4">
+                <input type="text" id="art-title"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
+                    placeholder="Titlu Articol">
+                <input type="text" id="art-subtitle"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
+                    placeholder="Subtitlu / Scurtă descriere">
+                <textarea id="art-content"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all h-32"
+                    placeholder="Conținutul articolului..."></textarea>
+                <input type="text" id="art-image"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 outline-none transition-all"
+                    placeholder="URL Imagine">
+                <button onclick="publishArticle()"
+                    class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700 shadow-lg shadow-red-200 transition-all">Publică
+                    Articolul</button>
             </div>
         </div>
 
@@ -192,6 +253,17 @@
                     document.getElementById('w-desc').value = item.description;
                     document.getElementById('w-image').value = item.imageUrl || "";
                     document.getElementById('w-wines').value = item.topWines ? item.topWines.join(', ') : "";
+
+                    // Check amenities logic
+                    const checkboxes = document.querySelectorAll('input[name="w-amenity"]');
+                    checkboxes.forEach(cb => cb.checked = false);
+                    if (item.amenities) {
+                        item.amenities.forEach(amenity => {
+                            const cb = document.querySelector(`input[name="w-amenity"][value="${amenity}"]`);
+                            if (cb) cb.checked = true;
+                        });
+                    }
+
                     const btn = document.querySelector('#winery-form button');
                     btn.innerText = "Actualizează Vinăria";
                     btn.style.backgroundColor = "#d97706";
@@ -255,12 +327,14 @@
 
         async function addWinery() {
             const regionNode = document.querySelector('input[name="w-region"]:checked');
+            const amenities = Array.from(document.querySelectorAll('input[name="w-amenity"]:checked')).map(cb => cb.value);
             const data = {
                 name: document.getElementById('w-name').value,
                 region: regionNode ? regionNode.value : 'Codru',
                 description: document.getElementById('w-desc').value,
                 imageUrl: document.getElementById('w-image').value || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3",
                 topWines: document.getElementById('w-wines').value.split(',').map(s => s.trim()),
+                amenities: amenities,
                 password: adminPassword
             };
 
@@ -320,6 +394,20 @@
                 body: JSON.stringify({ password: adminPassword })
             });
             if (res.ok) { showNotification("Șters!"); loadData(); }
+        }
+
+        async function publishArticle() {
+            const title = document.getElementById('art-title').value;
+            const subtitle = document.getElementById('art-subtitle').value;
+            const content = document.getElementById('art-content').value;
+            const image = document.getElementById('art-image').value;
+            if (!title || !content) return alert("Obligatoriu!");
+            const res = await fetch('/api/articles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, subtitle, content, imageURL: image, password: adminPassword })
+            });
+            if (res.ok) { showNotification("Publicat!"); setTimeout(() => location.reload(), 1000); }
         }
     </script>
 </body>
