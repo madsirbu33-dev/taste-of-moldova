@@ -17,7 +17,6 @@ cloudinary.config({
 
 // --- 2. MIDDLEWARE ---
 app.use(cors());
-// Лимиты для приема тяжелых фото из приложения
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
@@ -59,14 +58,11 @@ app.put('/api/:type/:id', adminAuth, async (req, res) => {
     let finalImageUrl = image;
 
     try {
-        // Если пришло новое фото в формате Base64 (с телефона)
         if (image && image.startsWith('data:image')) {
-            console.log(`📸 Încarc poza nouă în Cloudinary pentru ${type}...`);
             const uploadRes = await cloudinary.uploader.upload(image, {
                 folder: 'taste_of_moldova',
             });
             finalImageUrl = uploadRes.secure_url;
-            console.log("✅ Poza a fost salvată în Cloudinary:", finalImageUrl);
         }
 
         let fileName = type === 'event' ? 'events.json' : type === 'article' ? 'articles.json' : 'wineries.json';
@@ -81,9 +77,22 @@ app.put('/api/:type/:id', adminAuth, async (req, res) => {
             res.status(404).json({ error: "Elementul nu a fost găsit" });
         }
     } catch (err) {
-        console.error("❌ Cloudinary Error:", err);
         res.status(500).json({ error: "Eroare la încărcarea pozei" });
     }
+});
+
+// --- 6. ОБСЛУЖИВАНИЕ АДМИН-ПАНЕЛИ (ДОБАВЛЕНО) ---
+// Это заставляет сервер искать файлы в папке public
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Когда ты заходишь на сайт/admin, сервер отдает admin.html
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+// На всякий случай: если зайти просто на корень сайта, тоже покажем админку
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
