@@ -1,161 +1,71 @@
 import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
-import { useFonts } from 'expo-font';
-import { View, StyleSheet, Text, Image, Animated, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
 
-// Keep the splash screen visible while we fetch resources
+// Удерживаем заставку, пока всё не прогрузится
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({});
-  const [appReady, setAppReady] = (useState(false));
-  const [splashVisible, setSplashVisible] = (useState(true));
-  const fadeAnim = (new Animated.Value(1));
+    const [appReady, setAppReady] = useState(false);
 
-  useEffect(() => {
-    if (loaded || error) {
-      // Keep splash for 3 seconds to show branding
-      setTimeout(() => {
-          setAppReady(true);
-          Animated.timing(fadeAnim, {
-              toValue: 0,
-              duration: 800,
-              useNativeDriver: true,
-          }).start(() => {
-              setSplashVisible(false);
-              SplashScreen.hideAsync();
-          });
-      }, 3000);
+    useEffect(() => {
+        async function prepare() {
+            try {
+                // Искусственная пауза 2 секунды для красоты и подгрузки данных
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            } catch (e) {
+                console.warn(e);
+            } finally {
+                setAppReady(true);
+                await SplashScreen.hideAsync();
+            }
+        }
+        prepare();
+    }, []);
 
-      // Mock Push Notification after 5 seconds
-      setTimeout(() => {
-          Alert.alert(
-              "Taste of Moldova 🍷",
-              "Salut, Madalina! Ești în regiunea Codru. Vizitează Castel Mimi pentru o degustare premium!",
-              [{ text: "Vezi Detalii", onPress: () => {} }, { text: "Mai târziu", style: 'cancel' }]
-          );
-      }, 8000); // 3s splash + 5s in-app
-    }
-  }, [loaded, error]);
+    if (!appReady) return null;
 
-  if (!loaded && !error) {
-    return null;
-  }
+    return (
+        <Stack screenOptions={{ headerShown: false }}>
+            {/* Экран регистрации и входа */}
+            <Stack.Screen name="auth/index" options={{ headerShown: false }} />
 
-  return (
-    <View style={styles.container}>
-      {appReady && (
-          <Stack screenOptions={{ headerShown: false }}>
+            {/* Главное приложение (табы) */}
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen 
-                name="winery/[id]" 
-                options={{ 
-                    headerShown: false,
-                    presentation: 'modal',
-                    animation: 'slide_from_bottom'
-                }} 
-            />
-            <Stack.Screen 
-                name="article/[id]" 
-                options={{ 
-                    headerShown: false,
-                    presentation: 'modal',
-                    animation: 'slide_from_left'
-                }} 
-            />
-            <Stack.Screen 
-                name="all-wineries" 
-                options={{ 
-                    headerShown: false,
-                    animation: 'fade'
-                }} 
-            />
-          </Stack>
-      )}
 
-      {splashVisible && (
-          <Animated.View style={[StyleSheet.absoluteFill, { opacity: fadeAnim, zIndex: 1000 }]}>
-              <LinearGradient
-                  colors={['#800020', '#4A0404']}
-                  style={styles.splashContainer}
-              >
-                  <View style={styles.logoCircle}>
-                      <Image 
-                        source={{ uri: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2070&auto=format&fit=crop' }} 
-                        style={styles.splashLogo} 
-                      />
-                  </View>
-                  <Text style={styles.splashTitle}>Taste of Moldova</Text>
-                  <Text style={styles.splashSubtitle}>Wine Heritage & Culture</Text>
-                  <View style={styles.ornamentContainer}>
-                      <Text style={styles.ornament}>✼</Text>
-                      <View style={styles.ornamentLine} />
-                      <Text style={styles.ornament}>✼</Text>
-                  </View>
-              </LinearGradient>
-          </Animated.View>
-      )}
-      <StatusBar style="light" />
-    </View>
-  );
+            {/* --- СЕКЦИЯ АДМИНА --- */}
+
+            {/* Главная панель админа */}
+            <Stack.Screen
+                name="admin/index"
+                options={{
+                    headerShown: false,
+                    presentation: 'card'
+                }}
+            />
+
+            {/* Список элементов для выбора (статьи или ивенты) */}
+            <Stack.Screen
+                name="admin/list"
+                options={{
+                    headerShown: true,
+                    title: 'Selectează element',
+                    headerTintColor: '#B81D24',
+                    headerBackTitle: 'Înapoi'
+                }}
+            />
+
+            {/* Сам редактор текста и фото */}
+            <Stack.Screen
+                name="admin/edit-item"
+                options={{
+                    headerShown: true,
+                    title: 'Editare conținut',
+                    headerTintColor: '#B81D24',
+                    headerBackTitle: 'Anulează'
+                }}
+            />
+        </Stack>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  splashContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  logoCircle: {
-      width: 140,
-      height: 140,
-      borderRadius: 70,
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: 30,
-      borderWidth: 1,
-      borderColor: 'rgba(255,255,255,0.2)',
-  },
-  splashLogo: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
-  },
-  splashTitle: {
-      fontSize: 32,
-      fontWeight: '900',
-      color: '#FFF',
-      letterSpacing: 2,
-  },
-  splashSubtitle: {
-      fontSize: 14,
-      color: 'rgba(255,255,255,0.7)',
-      marginTop: 8,
-      fontWeight: '600',
-      textTransform: 'uppercase',
-      letterSpacing: 4,
-  },
-  ornamentContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 40,
-      gap: 15,
-  },
-  ornament: {
-      color: 'rgba(255,255,255,0.3)',
-      fontSize: 20,
-  },
-  ornamentLine: {
-      width: 60,
-      height: 1,
-      backgroundColor: 'rgba(255,255,255,0.2)',
-  },
-});
